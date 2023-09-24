@@ -1,0 +1,277 @@
+---
+title: "FA542 - Homework #1"
+subtitle: "I pledge my honor that I have abided by the Stevens Honor System."
+author: "Sid Bhatia"
+date: "2023-09-16"
+output: pdf_document
+---
+
+## Problem #1
+
+### Import Libraries
+
+```{r}
+# Load libraries for skewness, kurtosis, and plotting.
+library(moments)
+library(fBasics)
+```
+
+
+### Data Retrieval
+
+```{r}
+# Establish the directory for data.
+data_directory <- "C:/Users/sbhatia2/My Drive/University/Academics/Semester V/FA542 - Time Series with Application to Finance/FA542 - Homework/FA542 - Homework #1/HW1_data/"
+
+# Load in each dataset.
+data_problem_1 <- read.table(paste(data_directory, 'HW1_1.txt', sep=""), header = T)
+data_problem_2 <- read.table(paste(data_directory, 'HW1_2.txt', sep=""), header = T)
+data_problem_3 <- read.table(paste(data_directory, 'HW1_3.txt', sep=""), header = T)
+```
+
+
+#### 1a)
+
+```{r}
+df_1 <- as.data.frame(data_problem_1)
+
+# Create function that calculates the sample mean, standard deviation, skewness, kurtosis, minimum, and maximum of simple returns.
+compute_statistics <- function(returns)
+{
+  mean_val <- mean(returns)
+  sd_val <- sd(returns)
+  skewness_val <- skewness(returns)
+  kurtosis_val <- kurtosis(returns)
+  min_val <- min(returns)
+  max_val <- max(returns)
+  
+  # Create a list to hold each sample statistic.
+  result <- list(
+    mean = mean_val,
+    standard_deviation = sd_val,
+    skewness = skewness_val,
+    kurtosis = kurtosis_val,
+    minimum = min_val,
+    maximum = max_val
+  )
+
+  return(result)
+}
+
+# Compute statistics for each simple return series.
+CAT_statistics <- compute_statistics(df_1$RET)
+VW_statistics <- compute_statistics(df_1$vwretd)
+EW_statistics <- compute_statistics(df_1$ewretd)
+SP_statistics <- compute_statistics(df_1$sprtrn)
+
+CAT_statistics
+VW_statistics
+EW_statistics
+SP_statistics
+```
+
+#### 1b)
+
+```{r}
+# Display the empirical density distribution of simple returns for CAT.
+hist(df_1$RET, nclass=30)
+
+CAT_density_estimate <- density(df_1$RET)
+
+# Obtain density estimate of simple returns for CAT.
+CAT_density_estimate
+
+# Perform a Jarque-Bera test for normality of simple returns.
+normalTest(df_1$RET, method = 'jb')
+```
+
+At $\alpha = 0.05$ or at the 5% significance level, we reject the null hypothesis:
+$$H_0: \text{The simple returns of CAT are normally distributed}$$ since the p-value
+is less than 0.05.
+
+#### 1c)
+
+Log returns in relation to simple returns are defined as the following:
+
+$$r_t = \ln(1 + R_t)$$
+
+where $r_t$ are log returns and $R_t$ are simple returns.
+
+```{r}
+# Create function that transforms simple returns to log returns. log(...) is base e.
+simple_to_log <- function(returns) {
+  return(log(1 + returns))
+}
+
+# Convert simple returns to log using function.
+CAT_log_returns <- simple_to_log(df_1$RET)
+VW_log_returns <- simple_to_log(df_1$vwretd)
+EW_log_returns <- simple_to_log(df_1$ewretd)
+SP_log_returns <- simple_to_log(df_1$sprtrn)
+
+# Use `compute_statistics()` function to calculate all relevant statistics.
+CAT_log_statistics <- compute_statistics(CAT_log_returns)
+VW_log_statistics <- compute_statistics(VW_log_returns)
+EW_log_statistics <- compute_statistics(EW_log_returns)
+SP_log_statistics <- compute_statistics(SP_log_returns)
+
+CAT_log_statistics
+VW_log_statistics
+EW_log_statistics
+SP_log_statistics
+```
+
+#### 1d)
+
+To test the following the null hypothesis that the mean log returns are zero,
+we need to conduct a t-test:
+
+$$H_0: \text{Mean log returns are zero.}$$
+
+$$H_0: \text{Mean log returns do not equal zero.}$$
+
+```{r}
+t.test(x = CAT_log_returns, alternative = c('two.sided'), mu = 0)
+t.test(x = SP_log_returns, alternative = c('two.sided'), mu = 0)
+```
+As seen above, at the $\alpha = 0.05$ or the 5% significance level, we fail
+to reject the null hypothesis that the mean log returns for both CAT and S&P
+are zero since the p-values are well above 0.05.
+
+#### 1e)
+
+```{r}
+# Display the empirical density distribution of log returns for CAT.
+hist(CAT_log_returns, nclass=30)
+
+CAT_log_density_estimate <- density(CAT_log_returns)
+
+# Obtain density estimate of simple returns for CAT.
+CAT_log_density_estimate
+
+# Display the empirical density distribution of log returns for S&P
+hist(SP_log_returns, nclass=30)
+
+SP_log_density_estimate <- density(SP_log_returns)
+
+# Obtain density estimate of simple returns for CAT.
+SP_log_density_estimate
+```
+
+## Problem #2
+
+#### 1a)
+
+```{r}
+df_2 <- as.data.frame(data_problem_2)
+
+compute_statistics(df_2$RET)
+compute_statistics(df_2$vwretd)
+compute_statistics(df_2$ewretd)
+compute_statistics(df_2$sprtrn)
+```
+
+#### 2b)
+
+```{r}
+# Display the empirical density distribution of simple returns for PG.
+hist(df_2$RET, nclass=30)
+
+PG_density_estimate <- density(df_2$RET)
+
+# Obtain density estimate of simple returns for CAT.
+PG_density_estimate
+
+# Perform a Jarque-Bera test for normality of simple returns.
+normalTest(df_2$RET, method = 'jb')
+```
+
+At $\alpha = 0.05$ or at the 5% significance level, we reject the null hypothesis:
+$$H_0: \text{The simple returns of PG are normally distributed}$$ since the p-value
+is less than 0.05.
+
+#### 2c)
+
+```{r}
+compute_statistics(simple_to_log(df_2$RET))
+compute_statistics(simple_to_log(df_2$vwretd))
+compute_statistics(simple_to_log(df_2$ewretd))
+compute_statistics(simple_to_log(df_2$sprtrn))
+```
+#### 2d)
+
+To test the following the null hypothesis that the mean log returns are zero,
+we need to conduct a t-test:
+
+$$H_0: \text{Mean log returns are zero.}$$
+
+$$H_0: \text{Mean log returns do not equal zero.}$$
+
+```{r}
+t.test(x = simple_to_log(df_2$RET), alternative = c('two.sided'), mu = 0)
+t.test(x = simple_to_log(df_2$sprtrn), alternative = c('two.sided'), mu = 0)
+```
+As seen above, at the $\alpha = 0.05$ or the 5% significance level, we reject
+the null hypothesis that the mean log returns for both CAT and S&P
+are zero since the p-values below 0.05.
+
+#### 2e)
+
+```{r}
+par(mfrow = c(1, 2))
+hist(simple_to_log(df_2$RET), nclass=30)
+hist(simple_to_log(df_2$sprtrn), nclass=30)
+
+density(simple_to_log(df_2$RET))
+density(simple_to_log(df_2$sprtrn))
+```
+
+## Problem 3
+
+#### 3a)
+
+```{r}
+# Define significance level alpha = 0.05 or 95% CI.
+alpha <- 0.05
+
+n <- length(CAT_log_returns)
+CAT_mean <- CAT_log_statistics$mean
+CAT_sd <- CAT_log_statistics$standard_deviation
+  
+# Define degrees of freedom as n - 1.
+df <- n - 1
+
+t_score <- qt(p = alpha/2, df = df)
+
+CAT_lower_bound <- CAT_mean + t_score * (CAT_sd / sqrt(n))
+CAT_upper_bound <- CAT_mean - t_score * (CAT_sd / sqrt(n))
+
+c(CAT_lower_bound, CAT_upper_bound)
+```
+#### 3b)
+
+We are testing the following:
+
+$$H_0: S(r) = 0$$
+
+$$H_a: S(r) != 0$$
+
+Where $S(r)$ is the skewness of the log returns.
+
+The t-statistic for sample skewness is the following:
+
+$$t = \frac{\hat{S}(r)}{\sqrt{6/n}}$$
+
+```{r}
+t_skewness <- skewness(CAT_log_returns) / sqrt(6 / n)
+
+p_skewness <- 2 * (1 - pnorm(t_skewness))
+
+p_skewness
+```
+
+Since the p-value is greater than 0.05, we fail to reject the null hypothesis
+at the 5% significance level.
+
+
+
