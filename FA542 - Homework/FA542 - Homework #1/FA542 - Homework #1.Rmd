@@ -231,22 +231,27 @@ density(simple_to_log(df_2$sprtrn))
 #### 3a)
 
 ```{r}
+# Create function to calculate the confidence interval for a t-test.
+t_confidence_interval <- function(alpha, n, mean, sd) 
+{
+  # Define degrees of freedom as n - 1.s
+  df <- n - 1
+  t_score <- qt(p = alpha/2, df = df)
+
+  lower_bound <- mean - abs(t_score) * (sd / sqrt(n))
+  upper_bound <- mean + abs(t_score) * (sd / sqrt(n))
+
+  return(c(CAT_lower_bound, CAT_upper_bound))
+}
+
 # Define significance level alpha = 0.05 or 95% CI.
 alpha <- 0.05
 
 n <- length(CAT_log_returns)
 CAT_mean <- CAT_log_statistics$mean
 CAT_sd <- CAT_log_statistics$standard_deviation
-  
-# Define degrees of freedom as n - 1.
-df <- n - 1
 
-t_score <- qt(p = alpha/2, df = df)
-
-CAT_lower_bound <- CAT_mean - abs(t_score) * (CAT_sd / sqrt(n))
-CAT_upper_bound <- CAT_mean + abs(t_score) * (CAT_sd / sqrt(n))
-
-c(CAT_lower_bound, CAT_upper_bound)
+t_confidence_interval(alpha, n, CAT_mean, CAT_sd)
 ```
 #### 3b)
 
@@ -318,3 +323,22 @@ p_skewness
 
 Since the p-value is less than 0.05, we reject the null hypothesis at the 5% significance level that the
 log return is symmetric with respect to its mean.
+
+#### 4b)
+
+We are testing the following: 
+
+We are testing the following:
+
+$$H_0: K = 3$$
+$$H_a: K != 3##
+
+where $K$ denotes the kurtosis of the returns (excess kurtosis = 0).
+
+```{r}
+t_kurtosis <- (kurtosis(CAT_log_returns) - 3) / sqrt(24 / length(CAT_log_returns))
+
+p_kurtosis <- 2 * (1 - pnorm(abs(t_kurtosis)))
+
+p_kurtosis
+```
