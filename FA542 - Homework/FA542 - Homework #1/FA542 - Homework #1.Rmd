@@ -234,14 +234,14 @@ density(simple_to_log(df_2$sprtrn))
 # Create function to calculate the confidence interval for a t-test.
 t_confidence_interval <- function(alpha, n, mean, sd) 
 {
-  # Define degrees of freedom as n - 1.s
+  # Define degrees of freedom as n - 1.
   df <- n - 1
-  t_score <- qt(p = alpha/2, df = df)
+  t_score <- qt(p = alpha/2, df)
 
   lower_bound <- mean - abs(t_score) * (sd / sqrt(n))
   upper_bound <- mean + abs(t_score) * (sd / sqrt(n))
 
-  return(c(CAT_lower_bound, CAT_upper_bound))
+  return(c(lower_bound, upper_bound))
 }
 
 # Define significance level alpha = 0.05 or 95% CI.
@@ -252,6 +252,7 @@ CAT_mean <- CAT_log_statistics$mean
 CAT_sd <- CAT_log_statistics$standard_deviation
 
 t_confidence_interval(alpha, n, CAT_mean, CAT_sd)
+t.test(CAT_log_returns)$conf.int
 ```
 #### 3b)
 
@@ -334,8 +335,6 @@ log returns are symmetric with respect to its mean.
 
 #### 4b)
 
-We are testing the following: 
-
 We are testing the following:
 
 $$H_0: K = 3$$
@@ -349,3 +348,14 @@ kurtosis_test(SP_log_returns)
 
 Since the p-value is less than 0.05, we reject the null hypothesis at the 5% significance level that the excess
 kurtosis of the log returns is zero. 
+
+#### 4c)
+
+We are constructing a 95% CI for the expected daily log return (mean of log return) of the S&P.
+
+We will use our previously coded function:
+
+```{r}
+t_confidence_interval(0.05, length(SP_log_returns), mean(SP_log_returns), sd(SP_log_returns))
+t.test(SP_log_returns)$conf.int
+```
