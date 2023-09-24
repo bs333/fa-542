@@ -298,11 +298,17 @@ The t-statistic for kurtosis of the log returns is the following:
 $$t = \frac{\hat{K}(r) - 3}{\sqrt{24/n}}$$
 
 ```{r}
-t_kurtosis <- (kurtosis(CAT_log_returns) - 3) / sqrt(24 / length(CAT_log_returns))
+# Construct function to test whether the population kurtosis of returns is equal to 3 or not (excess kurtosis = 0).
+kurtosis_test <- function(returns)
+{
+  t_kurtosis <- (kurtosis(returns) - 3) / sqrt(24 / length(returns))
 
-p_kurtosis <- 2 * (1 - pnorm(abs(t_kurtosis)))
+  p_kurtosis <- 2 * (1 - pnorm(abs(t_kurtosis)))
 
-p_kurtosis
+  return(p_kurtosis)
+}
+
+kurtosis_test(CAT_log_returns)
 ```
 
 Since the p-value is less than 0.05, we reject the null hypothesis at the 5% significance level.
