@@ -268,11 +268,17 @@ The t-statistic for sample skewness is the following:
 $$t = \frac{\hat{S}(r)}{\sqrt{6/n}}$$
 
 ```{r}
-t_skewness <- skewness(CAT_log_returns) / sqrt(6 / length(CAT_log_returns))
+# Construct function to test whether the population skewness of returns is equal to 0 or not.
+skewness_test <- function(returns)
+{
+  t_skewness <- skewness(returns) / sqrt(6 / length(returns))
 
-p_skewness <- 2 * (1 - pnorm(abs(t_skewness)))
+  p_skewness <- 2 * (1 - pnorm(abs(t_skewness)))
 
-p_skewness
+  return(p_skewness)
+}
+
+skewness_test(CAT_log_returns)
 ```
 
 Since the p-value is greater than 0.05, we fail to reject the null hypothesis
