@@ -273,5 +273,43 @@ p_skewness
 Since the p-value is greater than 0.05, we fail to reject the null hypothesis
 at the 5% significance level.
 
+#### 3c)
+
+We are testing the following:
+
+$$H_0: K = 3$$
+$$H_a: K != 3##
+
+where $K$ denotes the kurtosis of the returns (excess kurtosis = 0).
+
+The t-statistic for kurtosis of the log returns is the following:
+
+$$t = \frac{\hat{K}(r) - 3}{\sqrt{24/n}}$$
+
+```{r}
+t_kurtosis <- kurtosis(CAT_log_returns) / sqrt(24 / n)
+
+p_kurtosis <- 2 * (1 - pnorm(t_kurtosis))
+
+p_kurtosis
+```
+
+Since the p-value is less than 0.05, we reject the null hypothesis at the 5% significance level.
+
+## Problem 4
+
+#### 4a)
+
+We are testing the following:
+
+$$H_0: S(r) = 0$$
+
+$$H_a: S(r) != 0$$
+
+Where $S(r)$ is the skewness of the log returns.
+
+```{r}
+
+```
 
 
