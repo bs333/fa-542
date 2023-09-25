@@ -406,3 +406,18 @@ t.test(euro_log_returns)$p.value
 Since the p-value is greater than 0.05, we fail to reject the null hypothesis that the mean of the
 daily log return of the Dollar-Euro exchange rate is zero at the 5% significance level.
 
+#### 5e)
+
+We will perform the Jarque-Bera test for normality which states the following:
+
+$$H_0: \text{S(r) = 0 = K(r)}$$
+
+Where $S(r)$ denotes the skewness of the distribution and $K(r)$ denotes the excess kurtosis.
+
+```{r}
+normalTest(euro_log_returns, method = 'jb')
+```
+
+Since the p-value is less than 0.05, we reject the null hypothesis that the skewness and excess kurtosis 
+are zero at the 5% significance level. As such, the log returns are most likely not normally distributed since
+samples from a normal distribution have an expected skewness of 0 and an expected excess kurtosis of 0.
