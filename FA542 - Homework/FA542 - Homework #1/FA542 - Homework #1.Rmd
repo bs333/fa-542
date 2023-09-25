@@ -333,7 +333,7 @@ log returns are symmetric with respect to its mean.
 We are testing the following:
 
 $$H_0: K = 3$$
-$$H_a: K != 3##
+$$H_a: K != 3$$
 
 where $K$ denotes the kurtosis of the returns (excess kurtosis = 0).
 
@@ -361,7 +361,7 @@ t.test(SP_log_returns)$conf.int
 
 Log returns are defined as the following:
 
-$r_t = \ln{(\frac{S_{t}}{S_{t-1}})} = \ln{(S_t)} - \ln{(S_{t-1})}$
+$$r_t = \ln{(\frac{S_{t}}{S_{t-1}})} = \ln{(S_t)} - \ln{(S_{t-1})}$$
 
 ```{r}
 head(data_problem_3)
@@ -383,4 +383,26 @@ compute_statistics(euro_log_returns)
 
 #### 5c)
 
-We will obtain the density plot using the previously coded function, `density_plot.` 
+We will obtain the density plot using the previously coded function, `density_plot.`
+
+```{r}
+density_plot(euro_log_returns)
+```
+
+#### 5d)
+
+We will test the following:
+
+$$H_0: \mu = 0$$
+
+$$H_a: \mu != 0$$
+
+Where $\mu$ is the mean of the daily log return of the Dollar-Euro exchange rate.
+
+```{r}
+t.test(euro_log_returns)$p.value
+```
+
+Since the p-value is greater than 0.05, we fail to reject the null hypothesis that the mean of the
+daily log return of the Dollar-Euro exchange rate is zero at the 5% significance level.
+
