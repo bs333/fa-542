@@ -359,3 +359,18 @@ We will use our previously coded function:
 t_confidence_interval(0.05, length(SP_log_returns), mean(SP_log_returns), sd(SP_log_returns))
 t.test(SP_log_returns)$conf.int
 ```
+
+## Problem 5
+
+#### 5a)
+
+```{r}
+head(data_problem_3)
+
+# Compute log returns of the Dollar-Euro exchange rate
+euro_log_returns <- diff(log(data_problem_3$euro))
+
+head(euro_log_returns)
+
+
+```
