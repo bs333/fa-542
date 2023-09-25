@@ -254,7 +254,7 @@ We are testing the following:
 
 $$H_0: S(r) = 0$$
 
-$$H_a: S(r) != 0$$
+$$H_a: S(r) \neq 0$$
 
 Where $S(r)$ is the skewness of the log returns.
 
@@ -284,7 +284,7 @@ at the 5% significance level.
 We are testing the following:
 
 $$H_0: K = 3$$
-$$H_a: K != 3##
+$$H_a: K \neq 3$$
 
 where $K$ denotes the kurtosis of the returns (excess kurtosis = 0).
 
@@ -317,7 +317,7 @@ We are testing the following:
 
 $$H_0: S(r) = 0$$
 
-$$H_a: S(r) != 0$$
+$$H_a: S(r) \neq 0$$
 
 Where $S(r)$ is the skewness of the daily log returns for S&P from 01/03/2007 to 12/31/2016.
 
@@ -333,7 +333,7 @@ log returns are symmetric with respect to its mean.
 We are testing the following:
 
 $$H_0: K = 3$$
-$$H_a: K != 3$$
+$$H_a: K \neq 3$$
 
 where $K$ denotes the kurtosis of the returns (excess kurtosis = 0).
 
@@ -395,7 +395,7 @@ We will test the following:
 
 $$H_0: \mu = 0$$
 
-$$H_a: \mu != 0$$
+$$H_a: \mu \neq 0$$
 
 Where $\mu$ is the mean of the daily log return of the Dollar-Euro exchange rate.
 
@@ -410,7 +410,7 @@ daily log return of the Dollar-Euro exchange rate is zero at the 5% significance
 
 We will perform the Jarque-Bera test for normality which states the following:
 
-$$H_0: \text{S(r) = 0 = K(r)}$$
+$$H_0: S(r) = 0 = K(r)$$
 
 Where $S(r)$ denotes the skewness of the distribution and $K(r)$ denotes the excess kurtosis.
 
