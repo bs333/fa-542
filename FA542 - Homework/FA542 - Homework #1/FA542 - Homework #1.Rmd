@@ -141,21 +141,15 @@ are zero since the p-values are well above 0.05.
 #### 1e)
 
 ```{r}
-# Display the empirical density distribution of log returns for CAT.
-hist(CAT_log_returns, nclass=30)
+# Create function to retrieve empirical density distribution function and plot it.
+density_plot <- function(returns)
+{
+  hist(returns, nclass=30)
+  return(density(returns))
+}
 
-CAT_log_density_estimate <- density(CAT_log_returns)
-
-# Obtain density estimate of simple returns for CAT.
-CAT_log_density_estimate
-
-# Display the empirical density distribution of log returns for S&P
-hist(SP_log_returns, nclass=30)
-
-SP_log_density_estimate <- density(SP_log_returns)
-
-# Obtain density estimate of simple returns for CAT.
-SP_log_density_estimate
+density_plot(CAT_log_returns)
+density_plot(SP_log_returns)
 ```
 
 ## Problem #2
@@ -381,9 +375,12 @@ head(euro_log_returns)
 #### 5b)
 
 We will compute the sample mean, standard deviation, skewness, excess kurtosis, minimum, and maximum 
-of the log returns of the exchange rate using the previously coded function 'compute_statistics'.
+of the log returns of the exchange rate using the previously coded function `density_plot.`
 
 ```{r}
 compute_statistics(euro_log_returns)
 ```
 
+#### 5c)
+
+We will obtain the density plot using the previously coded function, `density_plot.` 
