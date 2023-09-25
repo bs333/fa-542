@@ -302,7 +302,8 @@ $$t = \frac{\hat{K}(r) - 3}{\sqrt{24/n}}$$
 # Construct function to test whether the population kurtosis of returns is equal to 3 or not (excess kurtosis = 0).
 kurtosis_test <- function(returns)
 {
-  t_kurtosis <- (kurtosis(returns) - 3) / sqrt(24 / length(returns))
+  # Since the kurtosis function already computes excess log returns, we do not have to subtract by three.
+  t_kurtosis <- (kurtosis(returns)) / sqrt(24 / length(returns))
 
   p_kurtosis <- 2 * (1 - pnorm(abs(t_kurtosis)))
 
@@ -364,13 +365,25 @@ t.test(SP_log_returns)$conf.int
 
 #### 5a)
 
+Log returns are defined as the following:
+
+$r_t = \ln{(\frac{S_{t}}{S_{t-1}})} = \ln{(S_t)} - \ln{(S_{t-1})}$
+
 ```{r}
 head(data_problem_3)
 
-# Compute log returns of the Dollar-Euro exchange rate
+# Compute log returns of the Dollar-Euro exchange rate.
 euro_log_returns <- diff(log(data_problem_3$euro))
 
 head(euro_log_returns)
-
-
 ```
+
+#### 5b)
+
+We will compute the sample mean, standard deviation, skewness, excess kurtosis, minimum, and maximum 
+of the log returns of the exchange rate using the previously coded function 'compute_statistics'.
+
+```{r}
+compute_statistics(euro_log_returns)
+```
+
