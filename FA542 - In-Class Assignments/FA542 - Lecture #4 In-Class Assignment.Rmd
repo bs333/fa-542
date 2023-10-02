@@ -1,0 +1,79 @@
+---
+title: "FA542 - Lecture #4 In-Class Assignment"
+author: "Sid Bhatia"
+subtitle: "I pledge my honor that I have abided by the Stevens Honor System."
+date: "2023-09-28"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(quantmod)
+library(moments)
+```
+
+## Problem 1
+
+#### i)
+
+```{r}
+start_date <- as.Date("2016-01-01")
+end_date <- as.Date("2021-12-31")
+getSymbols("IBM", src = "yahoo", from = start_date, to = end_date)
+```
+#### ii)
+
+```{r}
+log_returns <- na.omit(diff(log(Cl(IBM)), lag = 1))
+head(log_returns)
+
+mean_log_return <- mean(log_returns)
+std_dev_log_return <- sd(log_returns)
+
+skewness_log_return <- skewness(log_returns)
+
+# Kurtosis is excess kurtosis
+kurtosis_log_return <- kurtosis(log_returns)
+```
+
+```{r}
+cat("Sample mean of log returns:", mean_log_return, "\n")
+cat("Standard deviation of log returns:", std_dev_log_return, "\n")
+cat("Skewness of log returns:", skewness_log_return, "\n")
+cat("Excess kurtosis of log returns:", kurtosis_log_return, "\n")
+```
+#### iii) 
+
+```{r}
+# Compute and plot autocorrelations
+acf(log_returns, na.action = na.omit, main = "Autocorrelations of Daily Log Returns of IBM")
+```
+
+#### iv)
+
+```{r}
+lag_1_test <- Box.test(log_returns, lag = 1, type = "Ljung-Box")
+lag_1_test$p.value
+```
+
+Since the p-value is less than 0.05, we reject the null hypothesis that the lag-1 autocorrelation equals zero.
+
+#### v)
+
+```{r}
+lag_3_test <- Box.test(log_returns, lag = 3, type = "Ljung-Box")
+lag_7_test <- Box.test(log_returns, lag = 7, type = "Ljung-Box")
+lag_20_test <- Box.test(log_returns, lag = 20, type = "Ljung-Box")
+
+lag_3_test$p.value
+lag_7_test$p.value
+lag_20_test$p.value
+```
+Since the p-values for each tests (lag = 3, 7, 20) are less than 0.05, we reject
+the null hypothesis that all of the autocorrelations up to that respective lag (3, 7, 20) are equal to zero. As such, this suggest at least one of the autocorrelations up to those lags (3, 7, 20) are significantly different from zero.
+
+
+
