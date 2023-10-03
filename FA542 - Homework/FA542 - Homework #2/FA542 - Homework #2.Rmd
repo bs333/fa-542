@@ -5,3 +5,57 @@ author: "Sid Bhatia"
 date: "2023-10-02"
 output: pdf_document
 ---
+
+## Problem #1
+
+Suppose that the daily log return of a security follows the $\text{AR}(2)$ model:
+
+$$r_t = 0.1 - 0.5r_{t-2} + a_t$$
+
+where $a_t$ is a Gaussian white noise series with mean zero and variance $0.2$.
+
+#### i.
+
+$$\mathbb{E}[r_t] = \mu = \frac{\phi_0}{1 - \phi_1 - \phi_2}$$
+
+In this case, $\phi_0 = 0.1$, $\phi_1 = 0$, and $\phi_2 = -0.5$.
+
+```{r}
+phi_0 <- 0.1
+phi_1 <- 0
+phi_2 <- -0.5
+
+mu_rt <- phi_0 / (1 - phi_1 - phi_2)
+mu_rt
+```
+
+$$\text{Var}(r_t) = \gamma(0) = \frac{\sigma_a^2}{1 - \phi_1^2 - \phi_2^2}$$
+
+In this case, $\sigma_a^2 = 0.2$.
+
+```{r}
+error_variance <- 0.2
+
+gamma_0 <- error_variance / (1 - phi_1^2 - phi_2^2)
+var_rt <- gamma_0
+
+var_rt
+```
+
+#### ii.
+
+For a stationary $\text{AR}(2)$ series $r_t$, we have $\rho_0 = 1$.
+
+$$\rho_1 = \frac{\phi_1}{1 - \phi_2}$$
+
+$$\rho_l = \phi_1 * \rho_{l - 1} + \phi_2 * \rho_{l - 2}$$
+
+```{r}
+rho_0 <- 1
+
+rho_1 <- phi_1 / (1 - phi_2)
+rho_1
+
+rho_2 <- phi_1 * rho_1 + phi_2 * rho_0
+rho_2
+```
