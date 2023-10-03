@@ -59,3 +59,6 @@ rho_1
 rho_2 <- phi_1 * rho_1 + phi_2 * rho_0
 rho_2
 ```
+
+#### iii.
+
