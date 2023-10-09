@@ -62,3 +62,194 @@ rho_2
 
 #### iii.
 
+For a 1-step ahead forecast $r_{101}$, it is defined as the following:
+
+$$r_{101} = 0.1 - 0.5 * r_{99} + a_{101}$$
+
+Given that $a_{101}$ is a Gaussian white noise with $\mu = 0$ and $\sigma_a^2 = 0.2$:
+
+$$r_{101} = 0.1 - 0.5(0.05) + a_101 = 0.075 + a_101$$
+
+```{r}
+# Given values
+r_100 <- 0.2
+r_99 <- 0.05
+variance_a <- 0.2
+
+# 1-Step Ahead Forecast (r_101)
+forecast_1_step <- 0.1 - 0.5 * r_99 + rnorm(1, mean = 0, sd = sqrt(variance_a))
+r_101 <- 0.075 + forecast_1_step
+
+r_101
+```
+
+For a 2-step ahead forecast $r_{102}$, it is defined as the following:
+
+$$r_{102} = 0.1 - 0.5 * r_{100} + a_{102}$$
+
+Given that $a_{102}$ is a Gaussian white noise with $\mu = 0$ and $\sigma_a^2 = 0.2$:
+
+$$r_{102} = 0.1 - 0.5(0.2) + a_{102} = 0.0 + a_{102}$$
+
+```{r}
+# 2-Step Ahead Forecast (r_102)
+forecast_2_step <- 0.1 - 0.5 * r_100 + rnorm(1, mean = 0, sd = sqrt(variance_a))
+r_102 <- forecast_2_step
+r_102
+```
+
+The standard deviation of the forecast error at time $n + m$ is:
+
+$$SE(x^n_{n+m} - x_{n+m}) = \sqrt{\hat{\sigma}_w^2 \sum_{j=0}^{m-1} \phi^2_j}$$
+
+When forecasting $m = 1$ time past the end of the series, the SE of the forecast is:
+
+$$SE(x^n_{n+1} - x_{n+1}) = \sqrt{\hat{\sigma}_w^2 (1)}$$
+
+When forecasting $m = 2$ time past the end of the series, the SE of the forecast is:
+
+$$SE(x^n_{n+2} - x_{n+2}) = \sqrt{\hat{\sigma}_w^2 (1 + \phi_1^2)}$$
+
+In this case, the associated standard deviations of the forecast errors are $\sqrt{0.2}$
+which is:
+
+```{r}
+sqrt(variance_a)
+```
+
+#### iv.
+
+##### a. 
+
+```{r}
+# Set the number of terms to simulate
+n <- 1000
+
+# Define the AR(2) coefficients (phi_0, phi_1, phi_2)
+phi_0 <- 0.1
+phi_1 <- 0
+phi_2 <- -0.5
+
+# Set the variance of the Gaussian white noise series (a_t)
+variance_a <- 0.2
+
+# Create an ARIMA model representing an AR(2) process
+arima_order <- c(2, 0, 0)
+
+# Simulate the time series using arima.sim()
+simulated_data <- arima.sim(model = list(ar = c(phi_1, phi_2)), n = n, innov = rnorm(n, mean = 0, sd = sqrt(variance_a)))
+
+# Set the initial values manually
+simulated_data[1] <- 0.2
+simulated_data[2] <- 0.05
+
+# Plot the simulated AR(2) time series
+plot(simulated_data, type = 'l', main = 'Simulated AR(2) Time Series', xlab = 'Time', ylab = 'r_t')
+```
+
+##### b.
+
+```{r}
+# Calculate sample mean and variance from the generated time series
+sample_mean <- mean(simulated_data)
+sample_variance <- var(simulated_data)
+
+# Analytical mean and variance (based on the AR(2) model)
+analytical_mean <- phi_0 / (1 - phi_1 - phi_2)
+analytical_variance <- (variance_a) / (1 - phi_1^2 - phi_2^2)
+
+# Print the results
+cat("Sample Mean:", sample_mean, "\n")
+cat("Sample Variance:", sample_variance, "\n")
+cat("Analytical Mean:", analytical_mean, "\n")
+cat("Analytical Variance:", analytical_variance, "\n")
+```
+
+##### c.
+
+```{r}
+# Calculate the sample ACF from the generated time series
+sample_acf <- acf(simulated_data, lag.max = 2, plot = FALSE)$acf
+
+cat("Sample Lag-1 ACF:", sample_acf[2], "\n")
+cat("Sample Lag-2 ACF:", sample_acf[3], "\n")
+cat("Analytical Lag-1 ACF:", rho_1, "\n")
+cat("Analytical Lag-2 ACF:", rho_2, "\n")
+```
+
+##### d.
+
+```{r}
+# Set the number of repeated simulations
+n_simulations <- 1000
+
+# Define the forecast origin values
+forecast_origin <- c(0.2, 0.05)
+
+# Initialize a matrix to store forecast results
+forecasts <- matrix(NA, nrow = n_simulations, ncol = 2)
+
+# Simulate and forecast for each simulation
+for (i in 1:n_simulations) {
+  # Simulate a new AR(2) time series
+  simulated_data <- arima.sim(model = list(ar = c(phi_1, phi_2)), n = n, innov = rnorm(n, mean = 0, sd = sqrt(variance_a)))
+  
+  # Set the initial values manually
+  simulated_data[1] <- forecast_origin[1]
+  simulated_data[2] <- forecast_origin[2]
+  
+  # Forecast 1-step ahead
+  forecast_1_step <- simulated_data[1] * phi_1 + simulated_data[2] * phi_2
+  
+  # Forecast 2-step ahead
+  forecast_2_step <- forecast_1_step * phi_1 + simulated_data[1] * phi_2
+  
+  # Store the forecasts
+  forecasts[i, 1] <- forecast_1_step
+  forecasts[i, 2] <- forecast_2_step
+}
+
+# Calculate the sample standard deviation of the forecasts
+sample_std_dev_1_step <- sd(forecasts[, 1])
+sample_std_dev_2_step <- sd(forecasts[, 2])
+
+# Calculate the analytical standard deviations for forecasts
+analytical_std_dev_1_step <- sqrt(variance_a)
+analytical_std_dev_2_step <- sqrt(variance_a)
+
+# Print the results
+cat("Sample Standard Deviation of 1-Step Ahead Forecasts:", sample_std_dev_1_step, "\n")
+cat("Sample Standard Deviation of 2-Step Ahead Forecasts:", sample_std_dev_2_step, "\n")
+cat("Analytical 1-Step Ahead Forecast:", analytical_std_dev_1_step, "\n")
+cat("Analytical 2-Step Ahead Forecast:", analytical_std_dev_2_step, "\n")
+```
+
+## Problem #2
+
+Suppose that the simple return of a monthly bond index follows the $\text{MA}(1)$ model:
+
+$$R_t = a_t - 0.1a_{t-1}$$
+
+where $a_t$ is a Gaussian white noise series with mean zero and variance $0.01$.
+
+#### i.
+
+$$\mathbb{E}[R_t] = \mu = 0$$
+
+$$\text{Var}(R_t) = \sigma^2_a(1 + \theta_1^2)$$
+
+where $\theta_1 = -0.1$.
+
+Therefore:
+
+```{r}
+mu_Rt <- 0
+theta_1 <- -0.1
+variance_a_Rt <- 0.01
+
+variance_Rt <- variance_a_Rt * (1 + theta_1^2)
+variance_Rt
+
+mu_Rt
+variance_Rt
+```
