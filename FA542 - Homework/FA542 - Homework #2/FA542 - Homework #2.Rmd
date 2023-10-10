@@ -253,3 +253,90 @@ variance_Rt
 mu_Rt
 variance_Rt
 ```
+
+#### ii.
+
+$$\rho_1 = \frac{\theta_1}{1 + \theta_1^2}$$
+
+$$\rho_2 = \frac{\theta_2}{1 + \theta_1^2 + \theta_2^2}$$
+
+```{r}
+rho_1_Rt <- theta_1 / (1 + theta_1^2)
+rho_1_Rt
+
+theta_2 <- 0
+rho_2_Rt <- theta_2 / (1 + theta_1^2 + theta_2^2)
+rho_2_Rt
+```
+
+#### iii.
+
+```{r}
+# Given values
+a_100 <- 0.01
+a_101 <- rnorm(1, mean = 0, sd = sqrt(0.01))  # Simulate a_101 as it's not given
+
+# 1-Step Ahead Forecast (R_101)
+forecast_1_step <- a_101 - 0.1 * a_100
+
+a_102 <- rnorm(1, mean = 0, sd = sqrt(0.01)) # Simulate a_102 as it's not given
+
+# 2-Step Ahead Forecast (R_102)
+forecast_2_step <- a_102 - 0.1 * a_101
+
+# Calculate standard deviations of forecast errors
+std_dev_1_step <- sqrt(0.01)
+std_dev_2_step <- sqrt(0.01 * (1 + theta_1^2))
+
+# Print the results
+cat("1-Step Ahead Forecast (R_101):", forecast_1_step, "\n")
+cat("2-Step Ahead Forecast (R_102):", forecast_2_step, "\n")
+cat("Standard Deviation of 1-Step Ahead Forecast Error (e_101):", std_dev_1_step, "\n")
+cat("Standard Deviation of 2-Step Ahead Forecast Error (e_102):", std_dev_2_step, "\n")
+```
+
+#### iv.
+
+##### a.
+
+```{r}
+# Number of time periods
+n <- 1000
+
+# Set the parameters of the MA(1) model
+order_ma <- c(0, 0, 1)  # ARIMA order (p, d, q)
+ma_coefs <- 0.1        # MA(1) coefficient
+
+# Variance of the white noise series a_t
+variance_a <- 0.01
+
+# Simulate the MA(1) time series
+simulated_data_Rt <- arima.sim(model = list(order = order_ma, ma = ma_coefs), n = n, innov = rnorm(n, mean = 0, sd = sqrt(variance_a)))
+
+# Plot the simulated time series
+plot(simulated_data_Rt, type = "l", main = "Simulated MA(1) Time Series", xlab = "Time", ylab = "R_t")
+```
+
+##### b.
+
+```{r}
+# Calculate sample mean and variance
+sample_mean_Rt <- mean(simulated_data_Rt)
+sample_variance_Rt <- var(simulated_data_Rt)
+
+# Analytical mean and variance
+analytical_mean_Rt <- 0
+analytical_variance_Rt <- variance_a * (1 + theta_1^2)
+
+# Print the results
+cat("Sample Mean:", sample_mean_Rt, "\n")
+cat("Sample Variance:", sample_variance_Rt, "\n")
+cat("Analytical Mean:", analytical_mean_Rt, "\n")
+cat("Analytical Variance:", analytical_variance_Rt, "\n")
+```
+
+##### c.
+
+```{r}
+
+```
