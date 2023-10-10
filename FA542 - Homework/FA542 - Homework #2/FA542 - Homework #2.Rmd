@@ -424,3 +424,76 @@ ar_model
 As such, the fitted model is the following:
 
 $$r_t = 1.0626 + 0.2267 r_{t-1}$$
+
+#### ii.
+
+```{r}
+# Perform model selection for MA order (e.g., from 0 to a maximum order)
+max_ma_order <- 10
+best_order <- NULL
+lowest_aic <- Inf
+
+for (p in 0:max_ma_order) {
+  ma_order <- arima(data, order = c(0, 0, p))
+  aic <- AIC(ma_order)
+  
+  cat("MA(", p, ") AIC:", aic, "\n")
+  
+  if (aic < lowest_aic) {
+    best_order <- p
+    lowest_aic <- aic
+  }
+}
+
+cat("Lowest AIC:", lowest_aic, "\n")  # Print the lowest AIC (MA(1))
+
+ma_model <- arima(data, order = c(0, 0, 1))
+ma_model
+```
+
+As such, the fitted model is the following:
+
+$$R_t = 1.0605 + 0.2385a_{t-1}$$
+
+#### iii.
+
+```{r}
+library(forecast)
+
+# 1-Step Ahead Forecast for AR Model
+ar_1step_forecast <- forecast(ar_model, h = 1)
+cat("AR 1-Step Ahead Forecast:", ar_1step_forecast$mean[1], "\n")
+
+# 2-Step Ahead Forecast for AR Model
+ar_2step_forecast <- forecast(ar_model, h = 2)
+cat("AR 2-Step Ahead Forecast:", ar_2step_forecast$mean[2], "\n")
+
+# 1-Step Ahead Forecast for MA Model
+ma_1step_forecast <- forecast(ma_model, h = 1)
+cat("MA 1-Step Ahead Forecast:", ma_1step_forecast$mean[1], "\n")
+
+# 2-Step Ahead Forecast for MA Model
+ma_2step_forecast <- forecast(ma_model, h = 2)
+cat("MA 2-Step Ahead Forecast:", ma_2step_forecast$mean[2], "\n")
+```
+
+#### iv.
+
+```{r}
+# Compare AIC and BIC
+cat("AR Model AIC:", AIC(ar_model), "\n")
+cat("AR Model BIC:", BIC(ar_model), "\n")
+cat("MA Model AIC:", AIC(ma_model), "\n")
+cat("MA Model BIC:", BIC(ma_model), "\n")
+
+# Compare residual diagnostics (ACF and PACF plots)
+par(mfrow = c(2, 2))
+acf(ar_model$resid)
+pacf(ar_model$resid)
+acf(ma_model$resid)
+pacf(ma_model$resid)
+```
+
+As we can see, the MA model has lower AIC and BIC respectively, implying that is better representative of the data.
+
+## Problem #4
