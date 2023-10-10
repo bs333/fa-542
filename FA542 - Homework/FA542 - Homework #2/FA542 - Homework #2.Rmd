@@ -598,5 +598,5 @@ cat("Mean Absolute Error (MAE):", mae, "\n")
 cat("Root Mean Squared Error (RMSE):", rmse, "\n")
 ```
 
-As we can see, the $\text{ARIMA}(5, 10, 10)$ did well with its respective AIC at -244.2574, MAE at 1.159, and RMSE at 1.326.
+As we can see, the $\text{ARIMA}(5, 1, 10)$ did well with its respective AIC at -244.2574, MAE at 1.159, and RMSE at 1.326.
 
