@@ -338,5 +338,17 @@ cat("Analytical Variance:", analytical_variance_Rt, "\n")
 ##### c.
 
 ```{r}
+# Calculate sample ACF
+acf_result <- acf(simulated_data_Rt, lag.max = 2, plot = FALSE)
 
+# Analytical ACF
+analytical_acf_1 <- theta_1 / (1 + theta_1^2)  # Analytical ACF at lag 1
+analytical_acf_2 <- 0  # Analytical ACF at lag 2 for MA(1)
+
+# Print the results
+cat("Sample Lag-1 ACF:", acf_result$acf[2], "\n")
+cat("Sample Lag-2 ACF:", acf_result$acf[3], "\n")
+cat("Analytical Lag-1 ACF:", analytical_acf_1, "\n")
+cat("Analytical Lag-2 ACF:", analytical_acf_2, "\n")
 ```
+
