@@ -497,3 +497,37 @@ pacf(ma_model$resid)
 As we can see, the MA model has lower AIC and BIC respectively, implying that is better representative of the data.
 
 ## Problem #4
+
+#### i.
+
+```{r}
+# Read in the data and separate into respective columns
+problem_4_data <- read.table("./FA542 - Homework/FA542 - Homework #2/homework02.csv", header = TRUE, sep = ',')
+colnames(problem_4_data)
+
+head(problem_4_data)
+```
+
+#### ii.
+
+```{r}
+library(e1071)
+
+# Calculate sample mean
+mean_yield <- mean(problem_4_data$AAA)
+
+# Calculate standard deviation
+std_deviation_yield <- sd(problem_4_data$AAA)
+
+# Calculate skewness
+skewness_yield <- skewness(problem_4_data$AAA)
+
+# Calculate excess kurtosis
+excess_kurtosis_yield <- kurtosis(problem_4_data$AAA)
+
+# Display summary statistics
+cat("Sample Mean:", mean_yield, "\n")
+cat("Standard Deviation:", std_deviation_yield, "\n")
+cat("Skewness:", skewness_yield, "\n")
+cat("Excess Kurtosis:", excess_kurtosis_yield, "\n")
+```
