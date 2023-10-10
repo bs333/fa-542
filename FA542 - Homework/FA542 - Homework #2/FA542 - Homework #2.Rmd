@@ -397,3 +397,11 @@ cat("Sample Standard Deviation of 2-Step Ahead Forecasts:", std_dev_2_step, "\n"
 cat("Analytical Standard Deviation of 1-Step Ahead Forecasts:", analytical_std_dev_1_step, "\n")
 cat("Analytical Standard Deviation of 2-Step Ahead Forecasts:", analytical_std_dev_2_step, "\n")
 ```
+
+## Problem #3
+
+#### i.
+
+```{r}
+
+```
