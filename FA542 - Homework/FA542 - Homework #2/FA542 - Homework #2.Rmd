@@ -305,7 +305,7 @@ n <- 1000
 
 # Set the parameters of the MA(1) model
 order_ma <- c(0, 0, 1)  # ARIMA order (p, d, q)
-ma_coefs <- 0.1        # MA(1) coefficient
+ma_coefs <- -0.1        # MA(1) coefficient
 
 # Variance of the white noise series a_t
 variance_a <- 0.01
@@ -352,3 +352,48 @@ cat("Analytical Lag-1 ACF:", analytical_acf_1, "\n")
 cat("Analytical Lag-2 ACF:", analytical_acf_2, "\n")
 ```
 
+##### d.
+
+```{r}
+# Number of time periods
+n <- 1000
+
+# Number of simulations
+n_simulations <- 1000
+
+# Fixed value for a_t
+a_fixed <- 0.01
+
+# Initialize vectors to store forecasts
+forecasts_1_step <- numeric(n_simulations)
+forecasts_2_step <- numeric(n_simulations)
+
+# Simulate the MA(1) time series multiple times
+for (sim in 1:n_simulations) {
+  # Simulate white noise series with the fixed value a_fixed
+  a <- rep(a_fixed, n)
+  
+  # Simulate the MA(1) time series
+  simulated_data <- arima.sim(model = list(order = order_ma, ma = ma_coefs), n = n, innov = a)
+  
+  # Calculate 1-step ahead forecast (R_{t+1})
+  forecasts_1_step[sim] <- simulated_data[1]
+  
+  # Calculate 2-step ahead forecast (R_{t+2})
+  forecasts_2_step[sim] <- simulated_data[2]
+}
+
+# Calculate sample standard deviations of forecasts
+std_dev_1_step <- sd(forecasts_1_step)
+std_dev_2_step <- sd(forecasts_2_step)
+
+# Analytical standard deviations
+analytical_std_dev_1_step <- sqrt(a_fixed)  # Analytical std dev for 1-step ahead
+analytical_std_dev_2_step <- sqrt(a_fixed * (1 + theta_1^2))  # Analytical std dev for 2-step ahead
+
+# Print the results
+cat("Sample Standard Deviation of 1-Step Ahead Forecasts:", std_dev_1_step, "\n")
+cat("Sample Standard Deviation of 2-Step Ahead Forecasts:", std_dev_2_step, "\n")
+cat("Analytical Standard Deviation of 1-Step Ahead Forecasts:", analytical_std_dev_1_step, "\n")
+cat("Analytical Standard Deviation of 2-Step Ahead Forecasts:", analytical_std_dev_2_step, "\n")
+```
