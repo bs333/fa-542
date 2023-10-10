@@ -531,3 +531,72 @@ cat("Standard Deviation:", std_deviation_yield, "\n")
 cat("Skewness:", skewness_yield, "\n")
 cat("Excess Kurtosis:", excess_kurtosis_yield, "\n")
 ```
+
+#### iii.
+
+```{r}
+library(tseries)
+
+# Check for stationarity
+adf_test_result <- adf.test(problem_4_data$AAA)
+adf_test_result$p.value
+```
+
+Since the p-value is greater than 0.05, we fail to reject the null hypothesis that this time series data is not stationary at the 95% confidence level.
+
+As such, we will difference the data and see if that is stationary.
+
+```{r}
+differenced_data <- diff(problem_4_data$AAA, differences = 1)
+adf.test(differenced_data)$p.value
+```
+
+Since the p-value is less than 0.05, we reject the null hypothesis that this difference ($d = 1$) time series data is not stationary at the 95% confidence level.
+
+As such, we accept the alternative hypothesis that this difference time series data is stationary.
+
+```{r}
+# Grid search for ARIMA orders
+best_aic <- Inf
+best_order <- c(0, 0, 0)
+
+for (p in 0:10) {
+  for (d in 1:1) {
+    for (q in 0:10) {
+      current_order <- c(p, d, q)
+      current_aic <- AIC(arima(problem_4_data$AAA, order = current_order))
+      
+      if (current_aic < best_aic) {
+        best_aic <- current_aic
+        best_order <- current_order
+      }
+    }
+  }
+}
+
+cat("Best ARIMA Order (p, d, q):", best_order, "\n")
+cat("Best AIC:", best_aic, "\n")
+
+# Fit best ARIMA model
+best_arima_model <- arima(problem_4_data$AAA, order = best_order)
+
+# Model diagnostics
+tsdiag(best_arima_model)
+
+# Out-of-Sample Forecasting (split data into train and validation sets)
+n_train <- floor(0.8 * length(problem_4_data$AAA))
+train_data <- problem_4_data$AAA[1:n_train]
+validation_data <- problem_4_data$AAA[(n_train + 1):length(problem_4_data$AAA)]
+
+best_forecast <- forecast(best_arima_model, h = length(validation_data))
+
+# Calculate MAE and RMSE for validation
+mae <- mean(abs(best_forecast$mean - validation_data))
+rmse <- sqrt(mean((best_forecast$mean - validation_data)^2))
+
+cat("Mean Absolute Error (MAE):", mae, "\n")
+cat("Root Mean Squared Error (RMSE):", rmse, "\n")
+```
+
+As we can see, the $\text{ARIMA}(5, 10, 10)$ did well with its respective AIC at -244.2574, MAE at 1.159, and RMSE at 1.326.
+
