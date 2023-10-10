@@ -404,7 +404,7 @@ cat("Analytical Standard Deviation of 2-Step Ahead Forecasts:", analytical_std_d
 
 ```{r}
 # Load in data
-data <- read.table("./FA542 - Homework/FA542 - Homework #2/m-ew6299.txt")
+data <- read.table("C:/Users/sbhatia2/My Drive/University/Academics/Semester V/FA542 - Time Series with Application to Finance/FA542 - Homework/FA542 - Homework #2/m-ew6299.txt")
 
 # Fit an AR model with lag order determined by AIC
 ar_order <- ar(data, aic = TRUE)
@@ -502,7 +502,7 @@ As we can see, the MA model has lower AIC and BIC respectively, implying that is
 
 ```{r}
 # Read in the data and separate into respective columns
-problem_4_data <- read.table("./FA542 - Homework/FA542 - Homework #2/homework02.csv", header = TRUE, sep = ',')
+problem_4_data <- read.table("C:/Users/sbhatia2/My Drive/University/Academics/Semester V/FA542 - Time Series with Application to Finance/FA542 - Homework/FA542 - Homework #2/homework02.csv", header = TRUE, sep = ',')
 colnames(problem_4_data)
 
 head(problem_4_data)
