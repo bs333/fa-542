@@ -403,5 +403,24 @@ cat("Analytical Standard Deviation of 2-Step Ahead Forecasts:", analytical_std_d
 #### i.
 
 ```{r}
+# Load in data
+data <- read.table("./FA542 - Homework/FA542 - Homework #2/m-ew6299.txt")
 
+# Fit an AR model with lag order determined by AIC
+ar_order <- ar(data, aic = TRUE)
+
+# Summary of the AR model (AR(1))
+summary(ar_order)
+
+# Create a combined ACF and PACF plot
+par(mfrow = c(1, 2))  # Set up a 1x2 grid for plotting
+acf(data)
+pacf(data)
+
+ar_model <- arima(data, order = c(1, 0, 0))
+ar_model
 ```
+
+As such, the fitted model is the following:
+
+$$r_t = 1.0626 + 0.2267 r_{t-1}$$
