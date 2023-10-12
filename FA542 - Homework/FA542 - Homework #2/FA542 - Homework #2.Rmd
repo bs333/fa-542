@@ -95,6 +95,10 @@ Given that $a_{102}$ is a Gaussian white noise with $\mu = 0$ and $\sigma_a^2 = 
 
 $$r_{102} = 0.1 - 0.5(0.2) + a_{102} = 0.0 + a_{102}$$
 
+Similarly, if we compute the condiitonal expectation, we have the following:
+
+$$\mathbb{E}[r_{102} | \mathcal{F_{101}}] = 0.0 + \mathbb{E}[a_102] = 0.0$$.
+
 ```{r}
 # 2-Step Ahead Forecast (r_102)
 forecast_2_step <- 0.1 - 0.5 * r_100 + rnorm(1, mean = 0, sd = sqrt(variance_a))
@@ -274,6 +278,30 @@ rho_2_Rt
 ```
 
 #### iii.
+
+For a 1-step ahead forecast $R_{101}$, it is defined as the following:
+
+$$R_{101} = a_{101} - 0.1 * a_{100}$$
+
+Given that $a_{101}$ is a Gaussian white noise with $\mu = 0$ and $\sigma_a^2 = 0.01$:
+
+$$R_{101} = a_{101} - 0.1(0.01) = a_{101} - 0.001$$
+
+If we take the conditional expectation of this, we have end up with the following:
+
+$$\mathbb{E}[R_{101} | \mathcal{F_{100}}] = \mathbb{E}[a_101] - 0.001 = 0.001$$.
+
+For a 2-step ahead forecast $R_{102}$, it is defined as the following:
+
+$$R_{102} = a_{102} - 0.1 * a_{101}$$
+
+Given that $a_{102}$ is a Gaussian white noise with $\mu = 0$ and $\sigma_a^2 = 0.2$:
+
+$$R_{102} = a_{102} - 0.1 * a_{101}$$
+
+Similarly, if we compute the condiitonal expectation, we have the following:
+
+$$\mathbb{E}[R_{102} | \mathcal{F_{101}}] = 0.0$$.
 
 ```{r}
 # Given values
