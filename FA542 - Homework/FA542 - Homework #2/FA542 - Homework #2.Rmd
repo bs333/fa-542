@@ -72,7 +72,7 @@ $$r_{101} = 0.1 - 0.5(0.05) + a_{101} = 0.075 + a_{101}$$
 
 If we take the conditional expectation of this, we have end up with the following:
 
-$$\mathbb{E}[r_{101} | \mathcal{F_{100}}] = 0.075 + \mathbb{E}[a_101] = 0.075$$.
+$$\mathbb{E}[r_{101} | \mathcal{F}] = 0.075 + \mathbb{E}[a_{101}] = 0.075$$.
 
 ```{r}
 # Given values
@@ -97,7 +97,7 @@ $$r_{102} = 0.1 - 0.5(0.2) + a_{102} = 0.0 + a_{102}$$
 
 Similarly, if we compute the condiitonal expectation, we have the following:
 
-$$\mathbb{E}[r_{102} | \mathcal{F_{101}}] = 0.0 + \mathbb{E}[a_102] = 0.0$$.
+$$\mathbb{E}[r_{102} | \mathcal{F}] = 0.0 + \mathbb{E}[a_{102}] = 0.0$$.
 
 ```{r}
 # 2-Step Ahead Forecast (r_102)
@@ -289,7 +289,7 @@ $$R_{101} = a_{101} - 0.1(0.01) = a_{101} - 0.001$$
 
 If we take the conditional expectation of this, we have end up with the following:
 
-$$\mathbb{E}[R_{101} | \mathcal{F_{100}}] = \mathbb{E}[a_101] - 0.001 = 0.001$$.
+$$\mathbb{E}[R_{101} | \mathcal{F}] = \mathbb{E}[a_{101}] - 0.001 = 0.001$$.
 
 For a 2-step ahead forecast $R_{102}$, it is defined as the following:
 
@@ -301,7 +301,7 @@ $$R_{102} = a_{102} - 0.1 * a_{101}$$
 
 Similarly, if we compute the condiitonal expectation, we have the following:
 
-$$\mathbb{E}[R_{102} | \mathcal{F_{101}}] = 0.0$$.
+$$\mathbb{E}[R_{102} | \mathcal{F}] = 0.0$$.
 
 ```{r}
 # Given values
