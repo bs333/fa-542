@@ -219,3 +219,26 @@ auto.arima(aaa_ts)$aic < best_aic
 
 As such, the best model for the Aaa bond yield data is $\text{ARIMA}(p = 4, d = 1, q = 5)$ since the model had a lower AIC than 
 $\text{ARIMA}(p = 3, d = 1, q = 5)$.
+
+#### c.
+
+What is the relationship between the Aaa and Baa series? 
+
+To answer this question, build a time series model using yields of Aaa bonds as the dependent variable and yields of Baa bonds as independent variable.
+
+```{r}
+# Retrieve Baa bond yields.
+baa_bond_yield <- moody_Baa$`Baa Bond Yield`
+
+# Fit a linear regression model where Aaa bonds is the dependent variable and Baa is the independent variable.
+model <- lm(aaa_bond_yield ~ baa_bond_yield)
+
+# Get summary of the regression model.
+summary(model)
+
+# Create a scatterplot.
+plot(baa_bond_yield, aaa_bond_yield, main = "Scatterplot of Aaa vs. Baa Bond Yields")
+
+# Add the regression line to the plot.
+abline(model, col = "red")
+```
