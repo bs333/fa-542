@@ -1,0 +1,79 @@
+---
+title: "FA542 - Homework #3"
+subtitle: "I pledge my honor that I have abided by the Stevens Honor System."
+author: "Sid Bhatia"
+date: "2023-10-17"
+output: pdf_document
+---
+
+## Problem 1
+
+Consider the weekly yields of Moody's Aaa and Baa seasoned bonds from January 5, 1962, to April 10, 2009 (*w-aaa.txt* and *w-Baa.txt* files).
+
+The data are obtained from the Federal Reserve Bank of St Louis. Weekly yields are averages of daily yields.
+
+```{r}
+# Load libraries for skewness, kurtosis, and plotting.
+library(moments)
+library(fBasics)
+
+# Establish the directory for data.
+data_directory <- "C:/Users/sbhatia2/My Drive/University/Academics/Semester V/FA542 - Time Series with Application to Finance/FA542 - Homework/FA542 - Homework #3/FA542 - Homework #3 ~ Data/"
+
+# Load in each dataset.
+moody_Aaa <- read.table(paste(data_directory, 'w-aaa.txt', sep=""))
+moody_Baa <- read.table(paste(data_directory, 'w-Baa.txt', sep=""))
+
+head(moody_Aaa)
+head(moody_Baa)
+
+# Combine V1, V2, and V3 columns into a single date column.
+moody_Aaa$Date <- as.Date(paste(moody_Aaa$V1, moody_Aaa$V2, moody_Aaa$V3, sep = "-"), format = "%Y-%m-%d")
+moody_Baa$Date <- as.Date(paste(moody_Baa$V1, moody_Baa$V2, moody_Baa$V3, sep = "-"), format = "%Y-%m-%d")
+
+# Keep only 'Date' and rename 'V4' to 'Aaa Bond Yield' and 'Baa Bond Yield' respectively.
+moody_Aaa <- moody_Aaa[, c("Date", "V4")]
+moody_Baa <- moody_Baa[, c("Date", "V4")]
+
+colnames(moody_Aaa)[colnames(moody_Aaa) == "V4"] <- "Aaa Bond Yield"
+colnames(moody_Baa)[colnames(moody_Baa) == "V4"] <- "Baa Bond Yield"
+
+head(moody_Aaa)
+head(moody_Baa)
+```
+
+#### a.
+
+Obtain the summary statistics (sample mean, standard deviation, skewness, excess kurtosis, minimum, and maximum) of the two yield series. 
+
+Are the bond yields skewed?
+
+Do they have heavy tails? Answer the questions using 5% signifficance level.
+
+```{r}
+# Create function that calculates the sample mean, standard deviation, skewness, excess kurtosis, minimum, and maximum of simple returns.
+compute_statistics <- function(returns)
+{
+  mean_val <- mean(returns)
+  sd_val <- sd(returns)
+  skewness_val <- skewness(returns)
+  excess_kurtosis_val <- kurtosis(returns)
+  min_val <- min(returns)
+  max_val <- max(returns)
+  
+  # Create a list to hold each sample statistic.
+  result <- list(
+    mean = mean_val,
+    standard_deviation = sd_val,
+    skewness = skewness_val,
+    excess_kurtosis = excess_kurtosis_val,
+    minimum = min_val,
+    maximum = max_val
+  )
+
+  return(result)
+}
+
+# Compute statistics for both bond yield.
+compute_statistics(moody_Aaa$`Aaa Bond Yield`)
+```
