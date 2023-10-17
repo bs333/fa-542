@@ -74,6 +74,72 @@ compute_statistics <- function(returns)
   return(result)
 }
 
-# Compute statistics for both bond yield.
+# Compute statistics for both bond yields.
 compute_statistics(moody_Aaa$`Aaa Bond Yield`)
+compute_statistics(moody_Baa$`Baa Bond Yield`)
 ```
+
+We are testing the following:
+
+$$H_0: S(r) = 0$$
+
+$$H_a: S(r) \neq 0$$
+
+Where $S(r)$ is the skewness of the bond yields.
+
+The t-statistic for sample skewness is the following:
+
+$$t = \frac{\hat{S}(r)}{\sqrt{6/n}}$$
+
+```{r}
+# Construct function to test whether the population skewness of yields is equal to 0 or not.
+skewness_test <- function(yields)
+{
+  t_skewness <- skewness(yields) / sqrt(6 / length(yields))
+
+  p_skewness <- 2 * (1 - pnorm(abs(t_skewness)))
+
+  return(p_skewness)
+}
+
+# Conduct the skewness test for both yields.
+skewness_test(moody_Aaa$`Aaa Bond Yield`)
+skewness_test(moody_Baa$`Baa Bond Yield`)
+```
+
+Since both yields resulted in a p-value less than $0.05$, we reject the null hypothesis that the (population) skewness of the bond yields
+are $0$, and we accept the alternative hypothesis that bond yields are skewed.
+
+We are testing the following:
+
+$$H_0: K = 3$$
+$$H_a: K \neq 3$$
+
+where $K$ denotes the kurtosis of the returns (excess kurtosis = 0).
+
+The t-statistic for kurtosis of the yields is the following:
+
+$$t = \frac{\hat{K}(r) - 3}{\sqrt{24/n}}$$
+
+```{r}
+# Construct function to test whether the population kurtosis of returns is equal to 3 or not (excess kurtosis = 0).
+kurtosis_test <- function(yields)
+{
+  # Since the kurtosis function already computes excess log returns, we do not have to subtract by three.
+  t_kurtosis <- (kurtosis(yields)) / sqrt(24 / length(yields))
+
+  p_kurtosis <- 2 * (1 - pnorm(abs(t_kurtosis)))
+
+  return(p_kurtosis)
+}
+
+# Conduct the kurtosis test for both yields.
+kurtosis_test(moody_Aaa$`Aaa Bond Yield`)
+kurtosis_test(moody_Baa$`Baa Bond Yield`)
+```
+
+Since both yields resulted in a p-value less than $0.05$, we reject the null hypothesis that the (population) kurtosis of the bond yields
+are $3$, and we accept the alternative hypothesis that the kurtosis of the bond yields are not $3$, implying heavy tails.
+
+
+ 
