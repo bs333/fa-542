@@ -141,5 +141,81 @@ kurtosis_test(moody_Baa$`Baa Bond Yield`)
 Since both yields resulted in a p-value less than $0.05$, we reject the null hypothesis that the (population) kurtosis of the bond yields
 are $3$, and we accept the alternative hypothesis that the kurtosis of the bond yields are not $3$, implying heavy tails.
 
+#### b.
 
- 
+Build a time series model for the Aaa series.
+
+```{r}
+# Load in libraries for time series analysis.
+library(tseries)
+
+# Retrieve the Aaa bond yields.
+aaa_bond_yield <- moody_Aaa$`Aaa Bond Yield`
+
+# Convert Aaa bond yields to a time series object.
+aaa_ts <- ts(aaa_bond_yield)
+
+# Plot the time series.
+plot(aaa_ts, main = "Aaa Bond Yield Time Series")
+
+# Perform the ADF test to check for stationarity.
+adf_test_result <- adf.test(aaa_ts)
+adf_test_result
+```
+
+Since the p-value for the Augmented Dickey-Fuller (ADF) Test is greater than $0.05$, we fail to reject the null hypothesis that the 
+time series data is non-stationary. As such, we will have to difference the data and test for stationarity.
+
+```{r}
+# Perform differencing.
+differenced_aaa_ts <- diff(aaa_ts)
+
+adf.test(differenced_aaa_ts)
+```
+
+Since the p-value of the ADF test is less than $0.05$, we can reject the null hypothesis that the difference time series data is 
+non-stationary and accept the alternative hypothesis that the data is stationary at the $5%$ significance level.
+
+```{r}
+# Import the `forecast` library for ARIMA model.
+library(forecast)
+
+# Create a layout with one row and two columns.
+par(mfrow = c(1, 2))
+
+# Plot ACF and PACF for Aaa bond yields.
+acf(aaa_ts)
+pacf(aaa_ts)
+
+# Perform grid search to find best ARIMA model based on AIC.
+best_model <- NULL
+best_aic <- Inf
+
+for (p in 0:5) {
+  for (d in 1:1) {
+    for (q in 0:5) {
+      model <- arima(aaa_ts, order = c(p, d, q))
+      aic <- AIC(model)
+
+      if (aic < best_aic) {
+        best_model <- model
+        best_aic <- aic
+        best_order <- c(p, d, q)
+      }
+    }
+  }
+}
+
+# Display best ARIMA model, AIC, and order from above.
+best_model
+best_aic
+best_order
+
+# Compare model with `auto.arima`.
+auto.arima(aaa_ts)
+
+auto.arima(aaa_ts)$aic < best_aic
+```
+
+As such, the best model for the Aaa bond yield data is $\text{ARIMA}(p = 4, d = 1, q = 5)$ since the model had a lower AIC than 
+$\text{ARIMA}(p = 3, d = 1, q = 5)$.
