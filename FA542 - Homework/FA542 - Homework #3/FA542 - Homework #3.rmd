@@ -187,29 +187,38 @@ par(mfrow = c(1, 2))
 acf(aaa_ts)
 pacf(aaa_ts)
 
-# Perform grid search to find best ARIMA model based on AIC.
-best_model <- NULL
-best_aic <- Inf
+# Create a function to perform grid search to find the best ARIMA based on AIC.
+grid_search <- function(ts) 
+{ 
+  best_model <- NULL
+  best_aic <- Inf
+  best_order <- c(0, 0, 0)
 
-for (p in 0:5) {
-  for (d in 1:1) {
-    for (q in 0:5) {
-      model <- arima(aaa_ts, order = c(p, d, q))
-      aic <- AIC(model)
+  for (p in 0:5) 
+  {
+    for (d in 1:1) 
+    {
+      for (q in 0:5) 
+      {
+        model <- arima(ts, order = c(p, d, q))
+        aic <- AIC(model)
 
-      if (aic < best_aic) {
-        best_model <- model
-        best_aic <- aic
-        best_order <- c(p, d, q)
+        if (aic < best_aic) 
+        {
+          best_model <- model
+          best_aic <- aic
+          best_order <- c(p, d, q)
+        }
       }
     }
   }
+
+  # Create a result data frame with the best AIC and formatted best order.
+  result_df <- data.frame(Best_AIC = best_aic, Best_Order = paste0("(", paste(best_order, collapse = ","), ")"))
+  return(result_df)
 }
 
-# Display best ARIMA model, AIC, and order from above.
-best_model
-best_aic
-best_order
+grid_search(aaa_ts)
 
 # Compare model with `auto.arima`.
 auto.arima(aaa_ts)
@@ -241,4 +250,18 @@ plot(baa_bond_yield, aaa_bond_yield, main = "Scatterplot of Aaa vs. Baa Bond Yie
 
 # Add the regression line to the plot.
 abline(model, col = "red")
+
+# Retrieve the residuals from the linear regression model.
+residuals <- residuals(model)
+
+# Visualize the residuals.
+plot(residuals, main = "Residuals from Linear Regression")
+
+# Check stationarity of residuals.
+adf.test(residuals)
+
+# After differencing the residuals, we have stationarity.
+adf.test(diff(residuals))
+
+residuals_model <- auto.arima(residuals)
 ```
