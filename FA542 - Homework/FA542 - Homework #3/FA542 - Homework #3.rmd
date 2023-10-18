@@ -263,5 +263,15 @@ adf.test(residuals)
 # After differencing the residuals, we have stationarity.
 adf.test(diff(residuals))
 
-residuals_model <- auto.arima(residuals)
+# Create ARIMA model for residual using `auto.arima`.
+auto_residuals_model <- auto.arima(residuals)
+
+# Use grid search function to find ARIMA model with lowest AIC.
+grid_search(residuals)
 ```
+
+As such, after creating a time series models for the residuals of the linear regression model, we find that the best model is a 
+$\text{ARIMA}(p = 5, d = 1, q = 4)$.
+
+According to the linear regression model, there seems to be a strong positive linear relationship between Aaa bond yields and Baa bond yields
+as the adjuusted $R^2 = 0.9807$ with a $F$-statistic being very large and corresponding p-value less than $0.01$.
