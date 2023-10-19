@@ -222,8 +222,6 @@ grid_search(aaa_ts)
 
 # Compare model with `auto.arima`.
 auto.arima(aaa_ts)
-
-auto.arima(aaa_ts)$aic < best_aic
 ```
 
 As such, the best model for the Aaa bond yield data is $\text{ARIMA}(p = 4, d = 1, q = 5)$ since the model had a lower AIC than 
@@ -281,3 +279,53 @@ $\text{ARIMA}(p = 5, d = 1, q = 4)$.
 According to the linear regression model, there seems to be a strong positive linear relationship between Aaa bond yields and Baa bond yields
 as the adjuusted $R^2 = 0.9807$ with a $F$-statistic being very large and corresponding p-value less than $0.01$.
 
+## Problem 2
+
+This problem is concerned with the dynamic relationship between the spot and futures prices of the S&P 500 index.
+
+The data file *sp5may.txt* has three columns: log (futures price), log (spot price), and cost-of-carry (×100). The data were obtained from the Chicago Mercantile Exchange for the S&P 500 stock index in May 1993 and its June futures contract.
+
+The time interval is 1 minute (intraday). Several authors used the data to study index futures arbitrage.
+
+Here we focus on the first two columns. Let $f_t$ and $s_t$ be the log prices of futures and spot, respectively.
+
+Consider $y_t = f_t - f_{t-1}$ and $x_t = s_t - s_{t-1}$.
+
+Build a regression model with time series errors between ${y_t}$ and ${x_t}$ with $y_t$ being the dependent variable.
+
+```{r}
+# Load in S&P500 data.
+SP_500 <- read.table(paste(data_directory, 'sp5may.txt', sep=""), header = T)
+
+head(SP_500)
+
+# Calculate log returns for spot and futures.
+SP_500_futures_log_returns <- diff(SP_500$lnfuture)
+SP_500_spot_log_returns <- diff(SP_500$lnspot)
+
+head(SP_500_futures_log_returns)
+head(SP_500_spot_log_returns)
+
+# Build the linear regression model.
+model <- lm(SP_500_futures_log_returns ~ SP_500_spot_log_returns, data = SP_500)
+
+# Print the summary of the linear regression results.
+summary(model)
+
+# Fit an ARIMA model for the residuals of the model.
+auto.arima((residuals(model)))
+```
+
+As such, the best model for the residuals or time series errors is $\text{ARMA}(p = 1, q = 1)$.
+
+## Problem 3
+
+Consider the daily CDS spreads of JP Morgan from July 20, 2004 to September 19, 2014 (*d-cdsJPM.txt* file). 
+
+The period includes the financial crisis of 2008 so that the CDS spread vary substantially. The data are in the file *d-cdsJPM.txt* (column 2).
+
+Since the spreads are small, we consider the time series $x_t = 100 \times (\text{spread})$.
+
+In addition, sample $\text{ACF}$ of $x_t$ shows strong serial dependence. Therefore, we analyze the differenced series $y_t = (1 - B)x_t$.
+
+Build a time series model for $y_t$. Write down the fitted model.
