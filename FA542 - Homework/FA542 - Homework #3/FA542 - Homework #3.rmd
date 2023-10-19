@@ -329,3 +329,30 @@ Since the spreads are small, we consider the time series $x_t = 100 \times (\tex
 In addition, sample $\text{ACF}$ of $x_t$ shows strong serial dependence. Therefore, we analyze the differenced series $y_t = (1 - B)x_t$.
 
 Build a time series model for $y_t$. Write down the fitted model.
+
+```{r}
+# Load JPM CDS Spreads.
+JPM_CDS <- read.table(paste(data_directory, 'd-cdsJPM.txt', sep=""), col.names = c("Date", "JPM_CDS_Spreads"))
+
+# Convert the date column to "YYYYMMDD" format.
+JPM_CDS$Date <- as.Date(as.character(JPM_CDS$Date), format = "%Y%m%d")
+
+head(JPM_CDS)
+
+# Calculate x_t.
+x_t <- 100 * JPM_CDS$JPM_CDS_Spreads
+
+# Calculate the differenced series y_t.
+y_t <- c(NA, diff(x_t))
+
+# Plot the differenced series y_t.
+plot(JPM_CDS$Date, y_t, type = "l", xlab = "Date", ylab = "y_t", main = "Differenced Series y_t")
+
+par(mfrow = c(1, 2))
+acf(y_t)
+pacf(y_t)
+
+auto.arima(y_t)
+```
+
+As such, the best model for the difference series $y_t$ is $\text{ARMA}(p = 1, q = 3)$.
