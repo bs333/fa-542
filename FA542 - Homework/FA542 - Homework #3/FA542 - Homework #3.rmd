@@ -348,10 +348,6 @@ y_t <- c(NA, diff(x_t))
 # Plot the differenced series y_t.
 plot(JPM_CDS$Date, y_t, type = "l", xlab = "Date", ylab = "y_t", main = "Differenced Series y_t")
 
-par(mfrow = c(1, 2))
-acf(y_t)
-pacf(y_t)
-
 auto.arima(y_t)
 ```
 
