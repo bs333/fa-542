@@ -475,8 +475,9 @@ Since model **m1** had a RMSE of $0.1621524$, **m3** had a RMSE of $0.163189$, *
 
 #### h.
 
-*If root mean squares of forecast errors are used in out-of-sample prediction, which model is preferred? Why?*
+*If mean absolute forecast errors are used in out-of-sample comparison, which model is preferred? Why?*
 
+Since model **m1** had a MAE of $0.1242145$, **m3** had a MAE of $0.1237345$, **m4** had a MAE of $0.1164277$, and **m5** had a MAE of $0.1164356$, **m4** is preferred since it has the lowest MAE.
 
 #### i.
 
