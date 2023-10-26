@@ -221,10 +221,6 @@ As such, the average length of business cycles of the economy is $10.8$ quarters
 
 The quarterly gross domestic product implicit price deflator is often used as a measure of inflation. The file **q-gdpdef.txt** contains the data for the United States from the first quarter of 1947 to the last quarter of 2008. Data format is year, month, day, and deflator. The data are seasonally adjusted and equal to 100 for year 2000.
 
-#### a.
-
-*Build an ARIMA model for the series and check the validity of the fitted model.*
-
 ```{r}
 # Establish the directory for data.
 data_directory <- "C:/Users/sbhatia2/My Drive/University/Academics/Semester V/FA542 - Time Series with Application to Finance/FA542 - Exams/FA542 - Midterm Exam/"
@@ -232,7 +228,21 @@ data_directory <- "C:/Users/sbhatia2/My Drive/University/Academics/Semester V/FA
 # Load in the dataset.
 gdp_deflator <- read.table(paste(data_directory, 'q-gdpdef.txt', sep=""), header = T)
 
+# Convert the year, month, and day into a Date object
+gdp_deflator$date <- as.Date(with(gdp_deflator, paste(year, mom, day, sep="-")), format="%Y-%m-%d")
+
+# Move 'date' column to the first position and remove nonessential columns.
+gdp_deflator <- gdp_deflator[, c("date", "gdpdef")]
+
 head(gdp_deflator)
+```
+
+#### a.
+
+*Build an ARIMA model for the series and check the validity of the fitted model.*
+
+```{r}
+
 ```
 
 #### b.
