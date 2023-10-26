@@ -443,9 +443,15 @@ $$x_t = 1.6901x_{t-1} - 0.7909x_{t-2} + a_t - 1.6128a_{t-1} + 0.8014a_{t-2} - 1.
 
 *Model checking shows some serial correlations at lags 12 and 24. A seasonal model is then employed and called **m4**. Write down the fitted model.*
 
+The **m4** model is an $\text{ARIMA}$ model with non-seasonal and seasonal components with a period of 12. As such, this is the fitted model:
+
+$$x_t = 1.2357x_{t-1} - 0.3608x_{t-2} + a_t - 1.2354a_{t-1} + 0.5151a_{t-1} + 0.5542x_{t-12} - 0.8220a_{t-12}$$ 
+ 
 #### d.
 
 *The outliers remain in the seasonal model. Therefore, a refined model is used and called **m5**. Write down the fitted model.*
+
+
 
 #### e.
 
