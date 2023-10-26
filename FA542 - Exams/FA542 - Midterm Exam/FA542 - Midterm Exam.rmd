@@ -235,6 +235,9 @@ gdp_deflator$date <- as.Date(with(gdp_deflator, paste(year, mom, day, sep="-")),
 gdp_deflator <- gdp_deflator[, c("date", "gdpdef")]
 
 head(gdp_deflator)
+
+# Plot the data
+plot(gdp_deflator$date, gdp_deflator$gdpdef, type="l", xlab="Date", ylab="GDP Deflator")
 ```
 
 #### a.
@@ -242,8 +245,41 @@ head(gdp_deflator)
 *Build an ARIMA model for the series and check the validity of the fitted model.*
 
 ```{r}
+library(tseries)
 
+adf.test(gdp_deflator$gdpdef)
 ```
+
+Since the p-value is greater than $0.05$, we cannot reject the null hypothesis that the data is nonstationary at the $5\%$ significance level. As such, we must difference it.
+
+```{r}
+adf.test(diff(gdp_deflator$gdpdef))
+
+adf.test(diff(diff(gdp_deflator$gdpdef)))
+```
+
+After differencing twice, we can reject the null hypothesis of a unit root, meaning the data is stationary. 
+
+```{r}
+library(forecast)
+
+# Create ARIMA model based on data.
+arima_model <- auto.arima(gdp_deflator$gdpdef)
+
+summary(arima_model)$
+
+# Check the residuals to validate the model.
+checkresiduals(arima_model)
+
+# Conduct the Ljung-Box test on the residuals
+ljung_box_result <- Box.test(arima_model$residuals, lag=log(length(arima_model$residuals)))
+
+ljung_box_result
+```
+
+The fitted model is $\text{ARIMA}(p = 0, d = 2, q = 1)$, or a $\text{MA}(2)$ model that is differenced twice.
+
+Since the p-value for the Ljung-Box test is greater than $0.05$, we fail to reject the null hypothesis that the residuals have significant autocorrelations up to the specified lag. As such, the residuals seem to behave like white noise, validating the model. 
 
 #### b.
 
