@@ -284,3 +284,10 @@ Since the p-value for the Ljung-Box test is greater than $0.05$, we fail to reje
 #### b.
 
 *Use the fitted model to predict the inflation for each quarter of 2009.*
+
+```{r}
+forecast_values <- forecast(arima_model, h = 4)
+forecast_values
+
+forecast_values$mean
+```
