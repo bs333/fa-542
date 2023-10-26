@@ -133,7 +133,7 @@ $$r_t = 0.006 + 0.168r_{t-1} + 0.338r_{t-2} - 0.189r_{t-3} + a_t, \; a_t \sim \m
 
 *What is the expected growth rate of $r_t$?*
 
-$$\mathbb{E}[r_t] = \frac{\phi_0}{1 - \phi_1 - \phi_2 - \phi_3}$$
+$$\mathbb{E}[r_t] = \frac{\phi_0}{1 - \phi_1 - \phi_2 - \phi_3}
 
 ```{r}
 # Establish coefficents of AR(3) model.
@@ -425,7 +425,7 @@ Consider the monthly U.S. unemployment rates from January 1947 to March 2016. Du
 
 #### a.
 
-*The auto.arima command in R specifies an $\text{ARIMA}(2,0,2)$ model for $x_t$. The fitted model is referred to as m1 in the output. Write down the fitted model.*
+*The auto.arima command in R specifies an $\text{ARIMA}(2,0,2)$ model for $x_t$. The fitted model is referred to as **m1** in the output. Write down the fitted model.*
 
 The **m1** model is an $\text{ARMA}(p = 2, q = 2)$. As such, this is the fitted model:
 
@@ -441,15 +441,15 @@ $$x_t = 1.6901x_{t-1} - 0.7909x_{t-2} + a_t - 1.6128a_{t-1} + 0.8014a_{t-2} - 1.
 
 #### c.
 
-*Model checking shows some serial correlations at lags 12 and 24. A seasonal model is then employed and called m4. Write down the fitted model.*
+*Model checking shows some serial correlations at lags 12 and 24. A seasonal model is then employed and called **m4**. Write down the fitted model.*
 
 The **m4** model is an $\text{ARIMA}$ model with non-seasonal and seasonal components with a period of 12. As such, this is the fitted model:
 
-$$x_t = 1.2357x_{t-1} - 0.3608x_{t-2} + a_t - 1.2354a_{t-1} + 0.5151a_{t-1} + 0.5542x_{t-12} - 0.8220a_{t-12}$$
+$$x_t = 1.2357x_{t-1} - 0.3608x_{t-2} + a_t - 1.2354a_{t-1} + 0.5151a_{t-1} + 0.5542x_{t-12} - 0.8220a_{t-12}$$ 
  
 #### d.
 
-*The outliers remain in the seasonal model. Therefore, a refined model is used and called m5. Write down the fitted model.*
+*The outliers remain in the seasonal model. Therefore, a refined model is used and called **m5**. Write down the fitted model.*
 
 The **m5** model is an $\text{ARIMA}$ model with non-seasonal and seasonal components with a period of 12 with external regressors (outliers). As such, this is the fitted model:
 
@@ -457,13 +457,13 @@ $$x_t = 1.5743x_{t-1} - 0.6591x_{t-2} + a_t - 1.4869a_{t-1} + 0.6720a_{t-2} + 0.
 
 #### e.
 
-*Based on the model checking statistics provided, are there serial correlations in the residuals of model m5? Why?*
+*Based on the model checking statistics provided, are there serial correlations in the residuals of model **m5?** Why?*
 
-Since the Ljung-Box test resulted in a p-value equal to $0.2674$ which is greater than $0.05$, we fail to reject the null hypothesis that the residuals exhibit no autocorrelation up to lag 24, implying that there are no serial correlations in the residuals of model **m5** at the $5\%$ significance level.
+Since the Ljung-Box test resulted in a p-value equal to $0.2674$ which is greater than $0.05$, we fail to reject the null hypothesis that the residuals exhibit no autocorrelation up to lag 24, implying that there are no serial correlations in the residuals of model **m5** at the $5\%$ signifiance level.
 
 #### f.
 
-*Among models m1, m3, m4, and m5, which model is preferred under the in-sample fit? Why?*
+*Among models **m1**, **m3**, **m4**, and **m5**, which model is preferred under the in-sample fit? Why?*
 
 Since model **m1** had an AIC of $-336.71$, **m3** had an AIC of $-439.72$, **m4** had an AIC of $-396.43$, and **m5** had an AIC of $-510.4$, **m5** is preferred under the in-sample fit due to the lowest AIC.
 
@@ -481,7 +481,7 @@ Since model **m1** had a MAE of $0.1242145$, **m3** had a MAE of $0.1237345$, **
 
 #### i.
 
-*Consider models m1 and m3 State the impact of outliers on in-sample fitting.*
+*Consider models **m1** and **m3**. State the impact of outliers on in-sample fitting.*
 
 Model **m1** is an $\text(ARIMA)(p = 2, d = 0, q = 2)$ model without taking into account outliers. It has an AIC of $-336.71$.
 
@@ -491,10 +491,10 @@ By incorporating outliers in the **m3** model, the in-sample fit has been enhanc
 
 #### j.
 
-*Again, consider models m1 and m3. State the impact of outliers on out-of-sample predictions.*
+*Again, consider models **m1** and **m3**. State the impact of outliers on out-of-sample predictions.*
 
 Model **m1** had a RMSE of $0.1621524$ and model **m3** had a RMSE of $0.163189$. As such,  inclusion of outliers in the **m3** model leads to a slight increase in the RMSE, indicating that the model with outliers (**m3**) might not generalize as well to new data as the **m1** model does. 
 
 However, the MAE is marginally reduced in the **m3** model ($0.1237345$ vs. $0.1242145$), suggesting that on average, the magnitude of the forecast errors might be slightly smaller.
 
-Overall, the impact of outliers in the m3 model on out-of-sample predictions seems mixed, offering both potential benefits and drawbacks.
+Overall, the impact of outliers in the **m3** model on out-of-sample predictions seems mixed, offering both potential benefits and drawbacks.
