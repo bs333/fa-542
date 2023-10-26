@@ -430,3 +430,11 @@ Consider the monthly U.S. unemployment rates from January 1947 to March 2016. Du
 The **m1** model is an $\text{ARMA}(p = 2, q = 2)$. As such, this is the fitted model:
 
 $$x_t = 1.6546x_{t-1} - 0.7753x_{t-2} + a_t - 1.6288a_{t-1} + 0.8440a_{t-2}$$.
+
+#### b.
+
+Model checking shows two large outliers. An ARIMA(2,0,2) model with two outliers are then specified, **m3**. Write down the fitted model.
+
+The **m3** model is an $\text{ARMA}(p = 2, q = 2)$ with two external regressors $i22_t$ and $i21_t$. As such, this is the fitted model:
+
+$$x_t = 1.6901x_{t-1} - 0.7909x_{t-2} + a_t - 1.6128a_{t-1} + 0.8014a_{t-2} - 1.5302 \times i22_t + 1.1472 \times i21_t$$
