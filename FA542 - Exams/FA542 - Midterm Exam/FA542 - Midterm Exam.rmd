@@ -465,15 +465,18 @@ Since the Ljung-Box test resulted in a p-value equal to $0.2674$ which is greate
 
 *Among models **m1**, **m3**, **m4**, and **m5**, which model is preferred under the in-sample fit? Why?*
 
-Since model **m1** had an AIC of $-336.71$, **m3** had an AIC of $-439.72$, **m4** had an AIC of $-396.43$, and **m5** had an AIC of $-510.4$,
+Since model **m1** had an AIC of $-336.71$, **m3** had an AIC of $-439.72$, **m4** had an AIC of $-396.43$, and **m5** had an AIC of $-510.4$, **m5** is preferred under the in-sample fit due to the lowest AIC.
 
 #### g.
 
 *If root mean squares of forecast errors are used in out-of-sample prediction, which model is preferred? Why?*
 
+Since model **m1** had a RMSE of $0.1621524$, **m3** had a RMSE of $0.163189$, **m4** had a RMSE of $0.1499355$, and **m5** had a RMSE of $0.1493882$, **m5** is preferred since it has the lowest RMSE.
+
 #### h.
 
 *If root mean squares of forecast errors are used in out-of-sample prediction, which model is preferred? Why?*
+
 
 #### i.
 
