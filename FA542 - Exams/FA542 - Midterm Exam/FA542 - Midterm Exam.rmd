@@ -123,7 +123,7 @@ forecast_100_step <- 100 * phi_0 + p_200 + rnorm(1, mean = 0, sd = sqrt(a_t))
 forecast_100_step
 ```
 
-## Problem 2
+## Problem 2 (20pt)
 
 Suppose that the quarterly growth rates $r_t$ of an economy follows the model:
 
@@ -217,7 +217,7 @@ cycle_length / 4
 
 As such, the average length of business cycles of the economy is $10.8$ quarters or $2.7$ years.
 
-## Problem 3
+## Problem 3 (20pt)
 
 The quarterly gross domestic product implicit price deflator is often used as a measure of inflation. The file **q-gdpdef.txt** contains the data for the United States from the first quarter of 1947 to the last quarter of 2008. Data format is year, month, day, and deflator. The data are seasonally adjusted and equal to 100 for year 2000.
 
@@ -291,3 +291,23 @@ forecast_values
 
 forecast_values$mean
 ```
+
+## Problem 4 (20pt)
+
+You can use the quantmod package in R to obtain financial data.
+
+#### a.
+
+*Download daily price data for January 1, 2018 through October 23, 2023 of McDonald's Corp (MCD) stock from Yahoo Finance.*
+
+```{r}
+
+```
+
+#### b.
+
+*Build a time series model for this data.*
+
+#### c.
+
+*Evaluate its performance. Justify your choices.*
