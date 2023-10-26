@@ -438,3 +438,35 @@ Model checking shows two large outliers. An ARIMA(2,0,2) model with two outliers
 The **m3** model is an $\text{ARMA}(p = 2, q = 2)$ with two external regressors $i22_t$ and $i21_t$. As such, this is the fitted model:
 
 $$x_t = 1.6901x_{t-1} - 0.7909x_{t-2} + a_t - 1.6128a_{t-1} + 0.8014a_{t-2} - 1.5302 \times i22_t + 1.1472 \times i21_t$$
+
+#### c.
+
+*Model checking shows some serial correlations at lags 12 and 24. A seasonal model is then employed and called **m4**. Write down the fitted model.*
+
+#### d.
+
+*The outliers remain in the seasonal model. Therefore, a refined model is used and called **m5**. Write down the fitted model.*
+
+#### e.
+
+*Based on the model checking statistics provided, are there serial correlations in the residuals of model **m5?** Why?*
+
+#### f.
+
+*Among models **m1**, **m3**, **m4**, and **m5**, which model is preferred under the in-sample fit? Why?*
+
+#### g.
+
+*If root mean squares of forecast errors are used in out-of-sample prediction, which model is preferred? Why?*
+
+#### h.
+
+*If root mean squares of forecast errors are used in out-of-sample prediction, which model is preferred? Why?*
+
+#### i.
+
+*Consider models **m1** and **m3**. State the impact of outliers on in-sample fitting.*
+
+#### j.
+
+*Again, consider models **m1** and **m3**. State the impact of outliers on out-of-sample predictions.*
