@@ -18,7 +18,7 @@ Assume further that $p_{200} = 4.551$.
 
 #### a.
 
-Compute the $95\%$ interval forecast for $p_{201}$ at the forecast origin $t = 200$.
+*Compute the $95\%$ interval forecast for $p_{201}$ at the forecast origin $t = 200$.*
 
 For $t = 201$:
 
@@ -37,22 +37,26 @@ $$p_{201} \pm 1.96 * \sigma$$
 ```{r}
 set.seed(100)
 
+# Establish coefficients for AR(1) model.
 phi_0 <- 0.001
 phi_1 <- 1
 a_t <- 0.16
 
 p_200 <- 4.551
 
+# Compute conditional expectation forecast.
 p_201 <- phi_0 + p_200
 
 p_201
 
+# Compute forecast incorporating white noise.
 forecast_1_step <- phi_0 + p_200 + rnorm(1, mean = 0, sd = sqrt(a_t))
 forecast_1_step
 
 # Compute z-score for \alpha = 0.05
 z_score <- qnorm(0.975)
 
+# Create 95% for forecast.
 lower_bound <- p_201 - (z_score * sqrt(a_t))
 upper_bound <- p_201 + (z_score * sqrt(a_t))
 
@@ -63,7 +67,7 @@ confidence_interval
 
 #### b.
 
-Compute the 2-step ahead point forecast and its standard error for $p_{202}$ at the forecast origin $t = 200$.
+*Compute the 2-step ahead point forecast and its standard error for $p_{202}$ at the forecast origin $t = 200$.*
 
 $$p_{202} = 0.001 + p_{201} + a_t = 0.001 + 4.552 + a_{202}$$.
 
@@ -90,12 +94,15 @@ Therefore, the SE of the forecast is:
 $$\sqrt{0.16 * (1 + 1)} = \sqrt{0.32} = 0.5656854$$.
 
 ```{r}
+# Compute conditional expectation forecast.
 p_202 <- phi_0 + p_201
 p_202
 
+# Compute forecast incorporating white noise.
 forecast_2_step <- phi_0 + p_201 + rnorm(1, mean = 0, sd = sqrt(a_t))
 forecast_2_step
 
+# Compute forecast step error.
 forecast_2_step_SE <- sqrt(0.16 * 2)
 forecast_2_step_SE
 ```
@@ -111,6 +118,7 @@ If we take the conditional expectation of this, we have end up with the followin
 $$\mathbb{E}[p_{300} | \mathcal{F}] = 4.651 + \mathbb{E}[a_{202}] = 4.651$$.
 
 ```{r}
+# Compute forecast incorporating white noise.
 forecast_100_step <- 100 * phi_0 + p_200 + rnorm(1, mean = 0, sd = sqrt(a_t))
 forecast_100_step
 ```
@@ -128,11 +136,13 @@ $$r_t = 0.006 + 0.168r_{t-1} + 0.338r_{t-2} - 0.189r_{t-3} + a_t, \; a_t \sim \m
 $$\mathbb{E}[r_t] = \frac{\phi_0}{1 - \phi_1 - \phi_2 - \phi_3}
 
 ```{r}
+# Establish coefficents of AR(3) model.
 phi_0 <- 0.006
 phi_1 <- 0.168
 phi_2 <- 0.338
 phi_3 <- -0.189
 
+# Calculated expected growth or \mu.
 E_rt <- phi_0 / (1 - phi_1 - phi_2 - phi_3)
 
 E_rt
@@ -169,6 +179,7 @@ This implies that are are oscillatory or cyclical behavior in the series because
 The magnitude or modulus of a complex number is $\sqrt{a^2 + b^2}$. In this case, it is the following:
 
 ```{r}
+# Compute modulus of complex root.
 a <- 1.608257
 b <- 1.057496
 
@@ -181,4 +192,19 @@ It is approximately $1.92$, and since it is greater than 1, it indicates that th
 
 *What is the average length of business cycles of the economy, if any?*
 
-In order to find the average leng
+In order to find the average length of the business cycle introduced by a complex root, we can examine the argument (or angle) of the complex number.
+
+For a complex number $a + bi$, the angle $\theta$ in radians is calculated as:
+
+$$\theta = \arctan{b, a}$$
+
+The length of the business cycle in discrete time periods (like quarters) can be determined as:
+
+$$\text{Length} = \frac{2\pi}{\theta}$$
+
+```{r}
+# Calculate angle in radians.
+theta <- atan2(b, a)
+```
+
+
