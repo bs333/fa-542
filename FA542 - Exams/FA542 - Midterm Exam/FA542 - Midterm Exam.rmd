@@ -1,0 +1,7 @@
+---
+title: "FA542 - Midterm Exam"
+subtitle: "I pledge my honor that I have abided by the Stevens Honor System."
+author: "Sid Bhatia"
+date: "2023-10-17"
+output: pdf_document
+---
