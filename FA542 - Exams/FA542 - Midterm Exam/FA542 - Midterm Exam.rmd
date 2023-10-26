@@ -411,6 +411,11 @@ forecast_results <- forecast(mcd_model2, h = length(test_data))
 # Calculate accuracy metrics.
 accuracy_metrics <- accuracy(forecast_results, test_data)
 accuracy_metrics
+
+summary(mcd_model2)
 ```
 
-As we can see the RMSE and MAE are very low for the respective forecast results on the testing data, indicating a strong model.
+As we can see the RMSE and MAE are very low for the respective forecast results on the training and testing data, indicating a strong model.
+
+Specifically, the RMSE and MAE are lower for the testing set ($0.01366699$ vs. $0.01109467$ and $0.009042408$ vs. $0.008319826$, respectively), which is very good.
+
