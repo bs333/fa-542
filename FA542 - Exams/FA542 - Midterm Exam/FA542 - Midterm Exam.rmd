@@ -2,6 +2,115 @@
 title: "FA542 - Midterm Exam"
 subtitle: "I pledge my honor that I have abided by the Stevens Honor System."
 author: "Sid Bhatia"
-date: "2023-10-17"
+date: "2023-10-26"
 output: pdf_document
 ---
+
+## Problem 1 (20pt)
+
+Let $p_t$ be the the log price of an asset at time $t$. Assume that the log price follows the model:
+
+$$p_t = 0.001 + p_{t-1} + a_t, \; a_t \sim \mathcal{N}(\mu = 0, \sigma^2 = 0.16)$$
+
+where $\mathcal{N}(\mu, \sigma^2)$ denotes normal distribution with mean $\mu$ and variance $\sigma^2$.
+
+Assume further that $p_{200} = 4.551$.
+
+#### a.
+
+Compute the $95\%$ interval forecast for $p_{201}$ at the forecast origin $t = 200$.
+
+For $t = 201$:
+
+$$p_{201} = 0.001 + 4.551 + a_{201}$$
+
+If we take the conditional expectation of this, we have end up with the following:
+
+$$\mathbb{E}[p_{201} | \mathcal{F}] = 4.552 + \mathbb{E}[a_{201}] = 4.552$$.
+
+The variance of $p_{201}$ is the variance of $a_{201}$, therefore the standard deviation is $\sigma = \sqrt{0.16} = 0.4$.
+
+As such, the $95\%$ CI is:
+
+$$p_{201} \pm 1.96 * \sigma$$
+
+```{r}
+set.seed(100)
+
+phi_0 <- 0.001
+phi_1 <- 1
+a_t <- 0.16
+
+p_200 <- 4.551
+
+p_201 <- phi_0 + p_200
+
+p_201
+
+forecast_1_step <- phi_0 + p_200 + rnorm(1, mean = 0, sd = sqrt(a_t))
+forecast_1_step
+
+# Compute z-score for \alpha = 0.05
+z_score <- qnorm(0.975)
+
+lower_bound <- p_201 - (z_score * sqrt(a_t))
+upper_bound <- p_201 + (z_score * sqrt(a_t))
+
+confidence_interval <- c(lower_bound, upper_bound)
+
+confidence_interval
+```
+
+#### b.
+
+Compute the 2-step ahead point forecast and its standard error for $p_{202}$ at the forecast origin $t = 200$.
+
+$$p_{202} = 0.001 + p_{201} + a_t = 0.001 + 4.552 + a_{202}$$.
+
+If we take the conditional expectation of this, we have end up with the following:
+
+$$\mathbb{E}[p_{202} | \mathcal{F}] = 4.553 + \mathbb{E}[a_{202}] = 4.553$$.
+
+The standard deviation of the forecast error at time $n + m$ is:
+
+$$SE(x^n_{n+m} - x_{n+m}) = \sqrt{\hat{\sigma}_w^2 \sum_{j=0}^{m-1} \phi^2_j}$$
+
+When forecasting $m = 1$ time past the end of the series, the SE of the forecast is:
+
+$$SE(x^n_{n+1} - x_{n+1}) = \sqrt{\hat{\sigma}_w^2 (1)}$$
+
+When forecasting $m = 2$ time past the end of the series, the SE of the forecast is:
+
+$$SE(x^n_{n+2} - x_{n+2}) = \sqrt{\hat{\sigma}_w^2 (1 + \phi_1^2)}$$
+
+In this case, $\phi_1 = 1$.
+
+Therefore, the SE of the forecast is:
+
+$$\sqrt{0.16 * (1 + 1)} = \sqrt{0.32} = 0.5656854$$.
+
+```{r}
+p_202 <- phi_0 + p_201
+p_202
+
+forecast_2_step <- phi_0 + p_201 + rnorm(1, mean = 0, sd = sqrt(a_t))
+forecast_2_step
+
+forecast_2_step_SE <- sqrt(0.16 * 2)
+forecast_2_step_SE
+```
+
+#### c.
+
+What is the 100-step ahead forecast for $p_{300}$ at the forecast origin $t = 200$?
+
+$$p_{300} = p_{200} + 100 * phi_0 + a_t = 4.551 + 0.1 + a_t$$
+
+If we take the conditional expectation of this, we have end up with the following:
+
+$$\mathbb{E}[p_{300} | \mathcal{F}] = 4.651 + \mathbb{E}[a_{202}] = 4.651$$.
+
+```{r}
+forecast_100_step <- 100 * phi_0 + p_200 + rnorm(1, mean = 0, sd = sqrt(a_t))
+forecast_100_step
+```
