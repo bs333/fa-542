@@ -102,7 +102,7 @@ forecast_2_step_SE
 
 #### c.
 
-What is the 100-step ahead forecast for $p_{300}$ at the forecast origin $t = 200$?
+*What is the 100-step ahead forecast for $p_{300}$ at the forecast origin $t = 200$?*
 
 $$p_{300} = p_{200} + 100 * phi_0 + a_t = 4.551 + 0.1 + a_t$$
 
@@ -114,3 +114,71 @@ $$\mathbb{E}[p_{300} | \mathcal{F}] = 4.651 + \mathbb{E}[a_{202}] = 4.651$$.
 forecast_100_step <- 100 * phi_0 + p_200 + rnorm(1, mean = 0, sd = sqrt(a_t))
 forecast_100_step
 ```
+
+## Problem 2
+
+Suppose that the quarterly growth rates $r_t$ of an economy follows the model:
+
+$$r_t = 0.006 + 0.168r_{t-1} + 0.338r_{t-2} - 0.189r_{t-3} + a_t, \; a_t \sim \mathcal{N}(\mu = 0, \sigma^2 = 0.0016)$$
+
+#### a.
+
+*What is the expected growth rate of $r_t$?*
+
+$$\mathbb{E}[r_t] = \frac{\phi_0}{1 - \phi_1 - \phi_2 - \phi_3}
+
+```{r}
+phi_0 <- 0.006
+phi_1 <- 0.168
+phi_2 <- 0.338
+phi_3 <- -0.189
+
+E_rt <- phi_0 / (1 - phi_1 - phi_2 - phi_3)
+
+E_rt
+
+E_rt * 100
+```
+
+As such, the expected growth rate of $r_t$ is $0.878\%$.
+
+#### b.
+
+*Does the model imply existence of business cycles? Why?*
+
+$$\phi(B) = 1 - 0.168B - 0.338B^2 + 0.189B^3$$
+
+where $B$ is the backshift or lag operator.
+
+```{r}
+# Coefficients of the polynomial in ascending order
+coefficients <- c(1, -0.168, -0.338, 0.189)
+
+# Compute the roots
+roots <- polyroot(coefficients)
+
+print(roots)
+```
+
+Since the roots of the charateristic polynommial of the $\text{AR}$ model are :
+
+$$1.608257 \pm 1.057496i, 1.428154$$
+
+This implies that are are oscillatory or cyclical behavior in the series because of the complex roots.
+
+The magnitude or modulus of a complex number is $\sqrt{a^2 + b^2}$. In this case, it is the following:
+
+```{r}
+a <- 1.608257
+b <- 1.057496
+
+sqrt(a^2 + b^2)
+```
+
+It is approximately $1.92$, and since it is greater than 1, it indicates that the business cycles will not only persist but also grow over time. 
+
+#### c.
+
+*What is the average length of business cycles of the economy, if any?*
+
+In order to find the average leng
