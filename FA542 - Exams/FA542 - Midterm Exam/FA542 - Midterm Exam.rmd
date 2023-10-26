@@ -492,3 +492,9 @@ By incorporating outliers in the **m3** model, the in-sample fit has been enhanc
 #### j.
 
 *Again, consider models **m1** and **m3**. State the impact of outliers on out-of-sample predictions.*
+
+Model **m1** had a RMSE of $0.1621524$ and model **m3** had a RMSE of $0.163189$. As such,  inclusion of outliers in the **m3** model leads to a slight increase in the RMSE, indicating that the model with outliers (**m3**) might not generalize as well to new data as the **m1** model does. 
+
+However, the MAE is marginally reduced in the **m3** model ($0.1237345$ vs. $0.1242145$), suggesting that on average, the magnitude of the forecast errors might be slightly smaller.
+
+Overall, the impact of outliers in the m3 model on out-of-sample predictions seems mixed, offering both potential benefits and drawbacks.
