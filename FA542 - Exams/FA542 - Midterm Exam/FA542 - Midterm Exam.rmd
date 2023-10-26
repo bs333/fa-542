@@ -483,6 +483,12 @@ Since model **m1** had a MAE of $0.1242145$, **m3** had a MAE of $0.1237345$, **
 
 *Consider models **m1** and **m3**. State the impact of outliers on in-sample fitting.*
 
+Model **m1** is an $\text(ARIMA)(p = 2, d = 0, q = 2)$ model without taking into account outliers. It has an AIC of $-336.71$.
+
+Model **m3** is an $\text{ARIMA}(p = 2, d = 0, q = 2)$ model with taking into account significant outliers at lags 21 and 22. It has an AIC of $-439.72$.
+
+By incorporating outliers in the **m3** model, the in-sample fit has been enhanced, as evidenced by its reduced AIC value. This suggests that when the model addresses these extreme observations, it more accurately represents the inherent patterns in the data, minimizing the disproportionate impact of these outliers on the model's estimates.
+
 #### j.
 
 *Again, consider models **m1** and **m3**. State the impact of outliers on out-of-sample predictions.*
