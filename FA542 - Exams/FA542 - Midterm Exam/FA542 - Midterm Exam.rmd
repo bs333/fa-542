@@ -205,6 +205,16 @@ $$\text{Length} = \frac{2\pi}{\theta}$$
 ```{r}
 # Calculate angle in radians.
 theta <- atan2(b, a)
+
+# Calculate the length of the business cycle in quarters.
+cycle_length <- 2 * pi / theta
+
+cycle_length
+
+# Convert quarters to years.
+cycle_length / 4
 ```
+
+As such, the average length of business cycles of the economy is $10.8$ quarters or $2.7$ years.
 
 
