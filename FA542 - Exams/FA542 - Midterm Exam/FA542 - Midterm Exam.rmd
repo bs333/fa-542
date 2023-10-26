@@ -451,15 +451,21 @@ $$x_t = 1.2357x_{t-1} - 0.3608x_{t-2} + a_t - 1.2354a_{t-1} + 0.5151a_{t-1} + 0.
 
 *The outliers remain in the seasonal model. Therefore, a refined model is used and called **m5**. Write down the fitted model.*
 
+The **m5** model is an $\text{ARIMA}$ model with non-seasonal and seasonal components with a period of 12 with external regressors (outliers). As such, this is the fitted model:
 
+$$x_t = 1.5743x_{t-1} - 0.6591x_{t-2} + a_t - 1.4869a_{t-1} + 0.6720a_{t-2} + 0.5488x_{t-12} -0.8208a_{t-12} - 1.4762 \times i22_t + 1.1441 \times i21_t$$
 
 #### e.
 
 *Based on the model checking statistics provided, are there serial correlations in the residuals of model **m5?** Why?*
 
+Since the Ljung-Box test resulted in a p-value equal to $0.2674$ which is greater than $0.05$, we fail to reject the null hypothesis that the residuals exhibit no autocorrelation up to lag 24, implying that there are no serial correlations in the residuals of model **m5** at the $5\%$ signifiance level.
+
 #### f.
 
 *Among models **m1**, **m3**, **m4**, and **m5**, which model is preferred under the in-sample fit? Why?*
+
+Since model **m1** had an AIC of $-336.71$, **m3** had an AIC of $-439.72$, **m4** had an AIC of $-396.43$, and **m5** had an AIC of $-510.4$,
 
 #### g.
 
