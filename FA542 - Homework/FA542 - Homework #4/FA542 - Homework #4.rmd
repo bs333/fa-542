@@ -50,4 +50,26 @@ Build a two-regime TAR model for the series and write down the fitted model.
 
 ## Problem 3.
 
+Consider the monthly mean duration unemployment in US. The data is seasonally adjusted from January 1948 to August 2017 and it is available in the file Unempduration.csv. The mean duration shows an upward trend so let $x_t$ be the first difference of the original data. 
+
+#### a.
+
+Build a linear $\text{AR}$ model for $x_t$. Write down the fitted model and perform model checking.
+
+#### b.
+
+Perform threshold tests to confirm that $x_t$ exhibits threshold nonlinearity.
+
+#### c.
+
+Use $p = 5$ and $d \in {1, \cdots, 5}$, where $d$ denotes the delay for selection of the threshold variable $x_{t-d}$. You may use the $p$ value of the threshold test to select $d$.
+
+#### d.
+
+Build a two-regime $\text{TAR}(5)$ model for $x_t$. Perform model checking and write down the fitted model.
+
+#### e.
+
+Compare the linear $\text{AR}$ model and the $\text{TAR}$ model.
+
 
