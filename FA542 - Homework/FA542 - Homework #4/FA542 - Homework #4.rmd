@@ -28,9 +28,64 @@ head(MSFT)
 
 Is there any evidence of serial correlations in the monthly log returns. Use autocorrelations and 5% significance level to answer the question. If yes, remove the serial correlations.
 
+```{r}
+library(forecast)
+
+# Calculate monthly returns.
+monthly_prices <- to.monthly(MSFT, indexAt='lastof', OHLC=FALSE)
+monthly_log_returns <- diff(log(Cl(monthly_prices)), lag=1)
+
+# Remove the first NA value.
+monthly_log_returns <- na.omit(monthly_log_returns)
+
+head(monthly_log_returns)
+
+# Check for serial correlation using ACF.
+acf(monthly_log_returns, lag.max=12, main="ACF of Monthly Log Returns")
+
+# Perform a statistical test for autocorrelation.
+Box.test(monthly_log_returns, type = "Ljung-Box")
+
+# Calculate the first difference of the monthly log returns.
+diff_log_returns <- diff(monthly_log_returns)
+
+# Removing the NA value that gets introduced by differencing.
+diff_log_returns <- na.omit(diff_log_returns)
+
+# Check again for serial correlation using ACF.
+acf(diff_log_returns, lag.max=12, main="ACF of Differenced Monthly Log Returns")
+
+# Perform the Box test again.
+Box.test(diff_log_returns, type = "Ljung-Box")
+
+# Calculate the second difference of the monthly log returns.
+second_diff_log_returns <- diff(diff_log_returns)
+
+# Removing the NA value that gets introduced by differencing.
+second_diff_log_returns <- na.omit(second_diff_log_returns)
+
+# Check again for serial correlation using ACF.
+acf(second_diff_log_returns, lag.max=12, main="ACF of Second Differenced Monthly Log Returns")
+
+# Perform the Box test again.
+Box.test(second_diff_log_returns, type = "Ljung-Box")
+
+auto_arima_model <- auto.arima(monthly_log_returns)
+
+# Check the residuals of the ARIMA model.
+arima_residuals <- residuals(auto_arima_model)
+
+# Perform the Box test on the residuals.
+Box.test(arima_residuals, type = "Ljung-Box")
+```
+
+Since p-value for $\text{ARIMA}$ model residuals is greater than 0.05 for the Ljung-Box test, we can reject the null hypothesis that there are serial autocorrelations, implying we have removed them with this $\text{ARIMA}(p = 1, d = 0, q = 2)$ model.
+
 #### b.
 
 Is there any evidence of ARCH effects in the monthly log returns? Use the residual series if there are serial correlations in part (ii). Use Ljung-Box statistics for the squared returns (or residuals) with 6 and 12 lags of autocorrelations and 5% significance level to answer the question.
+
+
 
 #### c.
 
