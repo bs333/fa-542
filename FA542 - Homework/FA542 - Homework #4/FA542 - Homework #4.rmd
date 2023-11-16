@@ -73,3 +73,31 @@ Build a two-regime $\text{TAR}(5)$ model for $x_t$. Perform model checking and w
 Compare the linear $\text{AR}$ model and the $\text{TAR}$ model.
 
 
+## Problem 4.
+
+Suppose that the monthly log returns, in percentages, of a stock follow the following Markov switching model:
+
+$$
+\begin{gathered}
+r_t=1+a_t \quad a_t=\sigma_t \varepsilon_t \\
+\sigma_t^2=\left\{\begin{array}{c}
+0.1 a_{t-1}^2+0.8 \sigma_{t-1}^2 \quad \text { if } \quad S_t=1 \\
+5+0.1 a_{t-1}^2+0.5 \sigma_{t-1}^2 \quad \text { if } \quad S_t=2
+\end{array}\right.
+\end{gathered}
+$$
+
+where the transition probabilities are:
+
+$$\mathbb{P}(S_t = 2 \mid S_{t-1} = 1) = 0.1 \\
+\mathbb{P}(S_t = 1 \mid S_{t-1} = 2) = 0.2$$
+
+Suppose that $a_100 = 6, \sigma^2_{100} = 50,$ and $S_{100} = 2$ with probability $1$.
+
+#### a.
+
+What is the 1-step-ahead volatility forecast at the forecast origin $t = 100$?
+
+#### b.
+
+If the probability of $S_{100} = 2$ is reduced to $0.9$, what is the 1-step-ahead volatility forecast at the forecast origin $t_100$?
