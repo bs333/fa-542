@@ -107,6 +107,24 @@ After conducting Ljung-Box tests for both squared returns and the squared residu
 
 Identify an ARCH model for the data and fit the identified model. Write down the fitted model and justify your choice of parameters.
 
+```{r}
+# Load the fGarch package for GARCH modeling
+library(fGarch)
+
+# Look at ACF and PACF of squared residuals to find ARCH order.
+acf(squared_residuals)
+pacf(squared_residuals)
+
+# Define the GARCH(1,1) model specification
+spec <- garchSpec(model = list(omega = 0.01, alpha = 0.1, beta = 0.8))
+
+# Fit the model
+fit <- garchFit(spec, data = as.numeric(monthly_log_returns), trace = FALSE)
+
+# Display the summary of the fitted model
+summary(fit)
+```
+
 ## Problem 2
 
 Use the following commands to simulate a two-regime $\text{TAR}(1)$ model with 400 observations
@@ -121,9 +139,29 @@ xt <- m1$series
 
 Obtain a time plot for the data and its sample autocorrelation function with 12 lags.
 
+```{r}
+require(NTS)
+set.seed(1)
+phi <- matrix(c(0.8,-0.7),2,1)
+m1 <- uTAR.sim(400, c(1,1), phi)
+xt <- m1$series
+
+head(xt)
+
+# Time plot
+plot(xt, type = "l", main = "Time Plot of TAR(1) Series", xlab = "Time", ylab = "Series Value")
+
+# Sample Autocorrelation Function (ACF) with 12 lags
+acf(xt, lag.max = 12, main = "Sample ACF of TAR(1) Series")
+```
+
 #### b.
 
 Obtain a scatter plot for $x_t$ versus $x_{t-1}$ and draw a smooth line on the plot using loess local smoothing.
+
+```{r}
+
+```
 
 #### c.
 
