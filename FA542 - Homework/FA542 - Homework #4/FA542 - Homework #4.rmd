@@ -10,6 +10,20 @@ output: pdf_document
 
 Download daily price data for January 1, 1990 through November 1, 2023 of Microsoft stock from Yahoo Finance. You may use the quantmod package in R for this purpose.
 
+```{r}
+library(quantmod)
+
+# Set the date range.
+start_date <- as.Date("1990-01-01")
+end_date <- as.Date("2023-11-01")
+
+# Download the data.
+getSymbols("MSFT", src = "yahoo", from = start_date, to = end_date)
+
+# View the data.
+head(MSFT)
+```
+
 #### a.
 
 Is there any evidence of serial correlations in the monthly log returns. Use autocorrelations and 5% significance level to answer the question. If yes, remove the serial correlations.
