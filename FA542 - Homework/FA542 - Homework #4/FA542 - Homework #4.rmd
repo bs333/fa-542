@@ -1,0 +1,23 @@
+---
+title: "FA542 - Homework #4"
+subtitle: "I pledge my honor that I have abided by the Stevens Honor System."
+author: "Sid Bhatia"
+date: "2023-11-16"
+output: pdf_document
+---
+
+## Problem 1
+
+Download daily price data for January 1, 1990 through November 1, 2023 of Microsoft stock from Yahoo Finance. You may use the quantmod package in R for this purpose.
+
+#### a.
+
+Is there any evidence of serial correlations in the monthly log returns. Use autocorrelations and 5% significance level to answer the question. If yes, remove the serial correlations.
+
+#### b.
+
+Is there any evidence of ARCH effects in the monthly log returns? Use the residual series if there are serial correlations in part (ii). Use Ljung-Box statistics for the squared returns (or residuals) with 6 and 12 lags of autocorrelations and 5% significance level to answer the question.
+
+#### c.
+
+Identify an ARCH model for the data and fit the identified model. Write down the fitted model and justify your choice of parameters.
