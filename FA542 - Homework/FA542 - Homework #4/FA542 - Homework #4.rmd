@@ -160,12 +160,20 @@ acf(xt, lag.max = 12, main = "Sample ACF of TAR(1) Series")
 Obtain a scatter plot for $x_t$ versus $x_{t-1}$ and draw a smooth line on the plot using loess local smoothing.
 
 ```{r}
-
+# Scatter plot of xt vs xt-1 with loess smoothing.
+xt_lag <- xt[-length(xt)]
+xt_current <- xt[-1]
+plot(xt_lag, xt_current, main = "Scatter Plot of xt vs xt-1", xlab = "xt-1", ylab = "xt")
+lines(lowess(xt_lag, xt_current), col = "red")
 ```
 
 #### c.
 
 Apply threshold tests to confirm the threshold nonlinearity of the time series.
+
+```{r}
+
+```
 
 #### d.
 
