@@ -85,7 +85,23 @@ Since p-value for $\text{ARIMA}$ model residuals is greater than 0.05 for the Lj
 
 Is there any evidence of ARCH effects in the monthly log returns? Use the residual series if there are serial correlations in part (ii). Use Ljung-Box statistics for the squared returns (or residuals) with 6 and 12 lags of autocorrelations and 5% significance level to answer the question.
 
+```{r}
+# Calculate squared returns.
+squared_returns <- monthly_log_returns^2
 
+# Ljung-Box test on squared returns for 6 and 12 lags.
+Box.test(squared_returns, lag = 6, type = "Ljung-Box")
+Box.test(squared_returns, lag = 12, type = "Ljung-Box")
+
+# Calculated squared residuals.
+squared_residuals <- arima_residuals^2
+
+# Ljung-Box test on squared returns for 6 and 12 lags.
+Box.test(squared_residuals, lag = 6, type = "Ljung-Box")
+Box.test(squared_residuals, lag = 12, type = "Ljung-Box")
+```
+
+After conducting Ljung-Box tests for both squared returns and the squared residuals of the $\text{ARIMA}(1, 0, 2)$ model, both tests fail with 6 and 12 lags at the 5% significance level. As such, there is evidence of ARCH effects in the monthly log returns.
 
 #### c.
 
