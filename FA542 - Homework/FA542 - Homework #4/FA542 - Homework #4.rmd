@@ -21,3 +21,33 @@ Is there any evidence of ARCH effects in the monthly log returns? Use the residu
 #### c.
 
 Identify an ARCH model for the data and fit the identified model. Write down the fitted model and justify your choice of parameters.
+
+## Problem 2
+
+Use the following commands to simulate a two-regime $\text{TAR}(1)$ model with 400 observations
+
+require(NTS)
+set.seed(1)
+phi <- matrix(c(0.8,-0.7),2,1)
+m1 <- uTAR.sim(400, c(1,1), phi)
+xt <- m1$series
+
+#### a.
+
+Obtain a time plot for the data and its sample autocorrelation function with 12 lags.
+
+#### b.
+
+Obtain a scatter plot for $x_t$ versus $x_{t-1}$ and draw a smooth line on the plot using loess local smoothing.
+
+#### c.
+
+Apply threshold tests to confirm the threshold nonlinearity of the time series.
+
+#### d.
+
+Build a two-regime TAR model for the series and write down the fitted model.
+
+## Problem 3.
+
+
