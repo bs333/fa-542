@@ -376,5 +376,22 @@ print(sigma2_101)
 If the probability of $S_{100} = 2$ is reduced to $0.9$, what is the 1-step-ahead volatility forecast at the forecast origin $t_100$?
 
 ```{r}
+# Updated probability of S_100 = 2
+prob_S100_eq_2 <- 0.9
+prob_S100_eq_1 <- 1 - prob_S100_eq_2
 
+# Transition probabilities
+P_S2_given_S1 <- 0.1
+P_S1_given_S2 <- 0.2
+
+# Forecasting sigma2_101 using weighted average
+sigma2_101_S1 <- 0.1 * a_100^2 + 0.8 * sigma2_100  # if S_101 = 1
+sigma2_101_S2 <- 5 + 0.1 * a_100^2 + 0.5 * sigma2_100  # if S_101 = 2
+
+# Weighted forecast
+sigma2_101_forecast <- (prob_S100_eq_1 * P_S2_given_S1 * sigma2_101_S1) +
+                      (prob_S100_eq_2 * P_S1_given_S2 * sigma2_101_S2)
+
+# Printing the forecast
+print(sigma2_101_forecast)
 ```
