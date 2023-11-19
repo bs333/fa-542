@@ -172,12 +172,32 @@ lines(lowess(xt_lag, xt_current), col = "red")
 Apply threshold tests to confirm the threshold nonlinearity of the time series.
 
 ```{r}
+library(tseries)
 
+# ADF test
+adf.test <- adf.test(xt)
+
+# KPSS test
+kpss.test <- kpss.test(xt)
+
+# Display the results.
+adf.test
+kpss.test
 ```
 
 #### d.
 
 Build a two-regime TAR model for the series and write down the fitted model.
+
+```{r}
+library(TSA)
+
+# Fit a two-regime TAR model.
+tar.model <- tar(y = xt, p1 = 1, p2 = 1, d = 1)
+
+# Summary of the model.
+summary(tar.model)
+```
 
 ## Problem 3.
 
