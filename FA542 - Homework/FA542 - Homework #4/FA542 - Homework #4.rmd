@@ -354,6 +354,27 @@ Suppose that $a_100 = 6, \sigma^2_{100} = 50,$ and $S_{100} = 2$ with probabilit
 
 What is the 1-step-ahead volatility forecast at the forecast origin $t = 100$?
 
+```{r}
+# Given values
+a_100 <- 6
+sigma2_100 <- 50
+S_100 <- 2
+
+# Calculating sigma2_101
+if (S_100 == 1) {
+  sigma2_101 <- 0.1 * a_100^2 + 0.8 * sigma2_100
+} else if (S_100 == 2) {
+  sigma2_101 <- 5 + 0.1 * a_100^2 + 0.5 * sigma2_100
+}
+
+# Printing the forecast
+print(sigma2_101)
+```
+
 #### b.
 
 If the probability of $S_{100} = 2$ is reduced to $0.9$, what is the 1-step-ahead volatility forecast at the forecast origin $t_100$?
+
+```{r}
+
+```
