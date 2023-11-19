@@ -236,7 +236,9 @@ ar_model
 Box.test(residuals(ar_model), type = "Ljung-Box")
 ```
 
-As such, an $\text{AR}(13)$ model fits best for the differenced data.
+As such, an $\text{AR}(13)$ model fits best for the differenced data:
+
+$$x_t = -0.1308x_{t-1} + 0.1053x_{t-2} + 0.1464x_{t-3} + 0.0847x_{t-4} + 0.0531x_{t-5} + 0.0848x_{t-6} + 0.0639x_{t-7} - 0.0265x_{t-8} + 0.0741x_{t-9} + 0.0656x_{t-10} + 0.0540x_{t-11} - 0.0810x_{t-12} - 0.0625x_{t-13} + a_t$$
 
 #### b.
 
@@ -277,6 +279,34 @@ print(optimal_d)
 #### d.
 
 Build a two-regime $\text{TAR}(5)$ model for $x_t$. Perform model checking and write down the fitted model.
+
+```{r}
+# Building a two-regime TAR model
+tar_model <- tar(y = unemp_diff, p1 = 5, p2 = 5, d = optimal_d)
+
+# Model summary
+summary(tar_model)
+
+# Model checking with diagnostic plots
+par(mfrow=c(2,2))
+plot(tar_model$residuals)
+acf(tar_model$residuals)
+pacf(tar_model$residuals)
+qqnorm(tar_model$residuals)
+qqline(tar_model$residuals)
+
+# Extracting coefficients and threshold value
+coefficients_regime1 <- coef(tar_model$qr1)
+coefficients_regime2 <- coef(tar_model$qr2)
+threshold_value <- tar_model$thd
+
+# Printing the coefficients and threshold
+print(coefficients_regime1)
+print(coefficients_regime2)
+print(threshold_value)
+```
+
+As such, here 
 
 #### e.
 
