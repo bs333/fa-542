@@ -180,9 +180,13 @@ adf.test <- adf.test(xt)
 # KPSS test
 kpss.test <- kpss.test(xt)
 
+# Perform Tsay's test for threshold nonlinearity.
+tsay.test <- Tsay.test(unemp_diff)
+
 # Display the results.
 adf.test
 kpss.test
+tsay.test
 ```
 
 #### d.
@@ -207,9 +211,47 @@ Consider the monthly mean duration unemployment in US. The data is seasonally ad
 
 Build a linear $\text{AR}$ model for $x_t$. Write down the fitted model and perform model checking.
 
+```{r}
+# Load the data.
+unemp_data <- read.csv("C:/Users/sbhatia2/My Drive/University/Academics/Semester V/FA542 - Time Series with Application to Finance/FA542 - Homework/FA542 - Homework #4/Unempduration.csv", header = TRUE)
+
+head(unemp_diff)
+
+adf.test(unemp_data$UEMPMEAN)
+
+# First difference of the data to address the trend and stationarity.
+unemp_diff <- diff(unemp_data$UEMPMEAN)
+
+head(unemp_diff)
+
+adf.test(unemp_diff)
+
+# Fit an AR model for differenced, stationary data.
+ar_model <- ar(unemp_diff)
+
+# Display AR model.
+ar_model
+
+# Check residuals for model with Ljung-Box test.
+Box.test(residuals(ar_model), type = "Ljung-Box")
+```
+
+As such, an $\text{AR}(13)$ model fits best for the differenced data.
+
 #### b.
 
 Perform threshold tests to confirm that $x_t$ exhibits threshold nonlinearity.
+
+```{r}
+kpss.test <- kpss.test(unemp_diff)
+
+# Perform Tsay's test for threshold nonlinearity.
+tsay.test <- Tsay.test(unemp_diff)
+
+# Display the test results.
+kpss.test
+tsay.test
+```
 
 #### c.
 
