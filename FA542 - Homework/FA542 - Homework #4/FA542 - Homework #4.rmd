@@ -257,6 +257,23 @@ tsay.test
 
 Use $p = 5$ and $d \in {1, \cdots, 5}$, where $d$ denotes the delay for selection of the threshold variable $x_{t-d}$. You may use the $p$ value of the threshold test to select $d$.
 
+```{r}
+optimal_d <- NULL
+min_p_value <- 1
+
+# Testing different delays d
+for (d in 1:5) {
+    tsay_test <- Tsay.test(unemp_diff, lag = 5, d = d)
+    if (tsay_test$p.value < min_p_value) {
+        min_p_value <- tsay_test$p.value
+        optimal_d <- d
+    }
+}
+
+# optimal_d now contains the delay with the smallest p-value
+print(optimal_d)
+```
+
 #### d.
 
 Build a two-regime $\text{TAR}(5)$ model for $x_t$. Perform model checking and write down the fitted model.
