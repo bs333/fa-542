@@ -306,7 +306,15 @@ print(coefficients_regime2)
 print(threshold_value)
 ```
 
-As such, here 
+As such, here are the models for the following regimes:
+
+Regime 1 for $x_{t-1} \leq 0$:
+
+$$x_t = -0.02339012 - 0.18709330x_{t-1} + a_t$$
+
+Regime 2 for $x_{t-1} > 0$:
+
+$$x_t = -0.005189495 - 0.086354193x_{t-1} + 0.209213849x_{t-2} + 0.242253421x_{t-3} + 0.131535088x_{t-4} + a_t$$
 
 #### e.
 
