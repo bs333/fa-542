@@ -320,6 +320,14 @@ $$x_t = -0.005189495 - 0.086354193x_{t-1} + 0.209213849x_{t-2} + 0.242253421x_{t
 
 Compare the linear $\text{AR}$ model and the $\text{TAR}$ model.
 
+```{r}
+arima_model <- arima(unemp_diff, order = c(13, 0, 0))
+
+arima_model$aic
+tar_model$AIC
+```
+
+Since the TAR model had a lower AIC than the AR model, it is the better model.
 
 ## Problem 4.
 
