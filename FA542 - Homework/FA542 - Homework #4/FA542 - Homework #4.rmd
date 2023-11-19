@@ -201,7 +201,28 @@ tar.model <- tar(y = xt, p1 = 1, p2 = 1, d = 1)
 
 # Summary of the model.
 summary(tar.model)
+
+# Extracting coefficients for each regime from the TAR model.
+coefficients_regime1 <- coef(tar.model$qr1)
+coefficients_regime2 <- coef(tar.model$qr2)
+
+# Extracting the threshold value.
+threshold_value <- tar.model$thd
+
+coefficients_regime1
+coefficients_regime2
+threshold_value
 ```
+
+As such, here are the models for the following regimes:
+
+Regime 1 for $x_{t-1} \leq -0.3503485$:
+
+$$x_t = -0.1566838 + 0.7106902x_{t-1} + a_t$$
+
+Regime 2 for $x_{t-1} > -0.3503485$:
+
+$$x_t = -0.2808983 - 0.7012721x_{t-1} + a_t$$
 
 ## Problem 3.
 
