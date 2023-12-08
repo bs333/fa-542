@@ -6,3 +6,6 @@ date: "2023-12-07"
 output: pdf_document
 ---
 
+## Problem 1
+
+The Federal Reserve Bank of St. Louis publishes selected interest rates and U.S. financial data on its website: http://research.stlouisfed.org/fred2/. Consider the monthly 1-year (DGS1) and 10-year Treasury (DGS10) constant maturity rates from January 1962 through December 2021; see the file homework05.csv. The rates are in percentages. Let $c_t = r_t - r_{t-1}$ be the change series of the monthly interest rate $r_t$.
