@@ -14,9 +14,42 @@ The Federal Reserve Bank of St. Louis publishes selected interest rates and U.S.
 
 Construct single time series autoregressive models for the single time series $c_t^1$ and $c_t^10$.
 
+```{r}
+# Load required libraries.
+library(readr)
+library(stats)
+library(tseries)
+library(forecast)
+
+# Load the data from the CSV file.
+data <- read.csv("homework05.csv")
+
+head(data)
+
+# Calculate the change series c_t1 and c_t10.
+c_t1 <- diff(data$DGS1)
+c_t10 <- diff(data$DGS10)
+
+par(mfrow=c(2,2))
+acf(c_t1)
+pacf(c_t1)
+acf(c_t10)
+pacf(c_t10)
+
+adf.test(c_t1)
+adf.test(c_t10)
+
+auto.arima(c_t1)
+auto.arima(c_t10)
+```
+
 #### ii.
 
 Build a **bivariate** autoregressive model for the two change series.
+
+```{r}
+
+```
 
 #### iii.
 
