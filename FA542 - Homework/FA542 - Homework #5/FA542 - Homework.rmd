@@ -81,3 +81,9 @@ summary(structural_var)
 #### iv.
 
 Briefly discuss the implications of the vector autoregressive model and compare with the single time series models.
+
+Vector Autoregressive (VAR) models simultaneously model multiple variables and their dynamic interactions, ideal for datasets with interdependencies. They capture how variables depend on their past values and those of others, revealing how changes in one variable affect the entire system.
+
+In contrast to single time series models, VAR models are more complex and require a larger dataset for accurate estimation due to multiple parameters. Single time series models, like ARIMA, are simpler, focusing on one variable, making them easier to interpret.
+
+The choice between VAR and single time series models depends on research goals. VAR suits interconnected systems, while single time series models offer simplicity for analyzing individual variables in isolation.
