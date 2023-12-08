@@ -48,12 +48,35 @@ auto.arima(c_t10)
 Build a **bivariate** autoregressive model for the two change series.
 
 ```{r}
+library(vars)
 
+# Combine the two change series into a data frame.
+change_data <- data.frame(c_t1, c_t10)
+
+selected_order <- VARselect(change_data, lag.max = 10)
+
+selected_order
+```
+
+Order of 8 has the lowest AIC.
+
+```{r}
+# Fit the VAR model with the selected order.
+var_model <- VAR(change_data, p = 8, type = "none")
+
+# Print model summary.
+summary(var_model)
 ```
 
 #### iii.
 
 Transform the constructed bivariate model into a structural form.
+
+```{r}
+structural_var <- BQ(var_model)
+
+summary(structural_var)
+```
 
 #### iv.
 
