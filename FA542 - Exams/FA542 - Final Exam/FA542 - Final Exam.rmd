@@ -440,3 +440,48 @@ head(AAPL)
 #### b.
 
 Is there any evidence of serial correlations in the weekly log returns? Use the first 12 lagged autocorrelations and 5% significance level to answer this question. If yes, remove the serial correlations. If serial correlations exist, fit a linear model to account these serial correlations; justify your model to remove these serial correlations.
+
+*Note*: If serial correlations do not exist, do not neglect the mean of the series.
+
+```{r}
+# Calculate weekly log returns.
+AAPL_weekly <- to.weekly(AAPL)
+AAPL_weekly_log_returns <- diff(log(Cl(AAPL_weekly)))
+
+# Remove NA values.
+AAPL_weekly_log_returns <- na.omit(AAPL_weekly_log_returns)
+
+head(AAPL_weekly_log_returns)
+tail(AAPL_weekly_log_returns)
+
+# Test for serial correlation using the Ljung-Box test.
+lb_test <- Box.test(AAPL_weekly_log_returns, lag = 12, type = "Ljung-Box")
+
+lb_test
+
+# Fit an ARIMA model since p-value is less than 0.05, including the mean.
+fit <- auto.arima(AAPL_weekly_log_returns, include.mean = TRUE)
+
+summary(fit)
+
+# Check residuals of fitted model to ensure no autocorrelation.
+checkresiduals(fit)
+```
+
+#### c.
+
+Obtain the residuals of your model from part (b) and test for ARCH effects. Use the first 6 lagged autocorrelations and 5% significance level to answer this question. If ARCH effects exist, fit a GARCH(1,1) model for the residual part.
+
+#### d.
+
+##### i.
+
+Assuming $e_t \sim N(0, 1)$ i.i.d., what is the excess kurtosis of your GARCH(1,1) model?
+
+##### ii.
+
+Does this match the empirical excess kurtosis of your residuals? If not, what excess kurtosis of $e_t$ would be needed for the theoretical kurtosis to match the observed kurtosis? Provide a distribution for $e_t$ so that the theoretical excess kurtosis coincides with the observed kurtosis.
+
+
+
+
