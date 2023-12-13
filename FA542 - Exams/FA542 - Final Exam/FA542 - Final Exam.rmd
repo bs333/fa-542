@@ -33,3 +33,41 @@ Any matrix operations can be computed in R. If any formulas require infinite ser
  Verify that the return series ${r_t}$ is a weakly stationary process.
 
  *Hint*: The “polyroot” function can be used to find all roots of a polynomial in R and the “eigen” function can be used to find all eigenvalues of a matrix in R.
+
+ 
+```{r}
+# Defining the coefficient matrix for the mean calculation.
+A <- matrix(c(1 - 0.1, 0.1, -0.05, 1 - 0.3), nrow = 2, byrow = TRUE)
+
+# Defining the constant terms.
+B <- c(0.05, -0.1)
+
+# Solving for mu (the mean of r1 and r2).
+mu <- solve(A, B)
+
+# Defining the coefficient matrix for the characteristic equation.
+char_matrix <- matrix(c(-0.1, 0.1, -0.05, -0.3), nrow = 2, byrow = TRUE)
+
+# Calculating the eigenvalues of the characteristic matrix.
+eigenvalues <- eigen(char_matrix)$values
+
+# Display the results.
+print("Means of r1 and r2:")
+mu
+
+print("Eigenvalues of the characteristic matrix:")
+eigenvalues
+
+# Check if the absolute values of eigenvalues are less than 1 (inside the unit circle).
+is_stationary <- all(abs(eigenvalues) < 1)
+
+# Display the conclusion.
+if (is_stationary) 
+{
+  print("The series is weakly stationary.")
+} else 
+{
+  print("The series is not weakly stationary.")
+}
+
+```
