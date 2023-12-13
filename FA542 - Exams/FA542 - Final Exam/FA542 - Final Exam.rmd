@@ -416,8 +416,27 @@ The comparison of the standard deviations of the forecast errors from the univar
 
 Similarly, for the second return series ($r_2$), the standard deviation of the forecast error from the univariate model is around $0.459$, compared to the bivariate series' standard deviation of approximately $0.480$. Although there is a slight difference here, it's relatively small, indicating that the univariate model for $r_2$ also does a good job of approximating the variability seen in the bivariate data.
 
+## Problem 2 (30pt)
 
+Create a report in pdf format and do the following:
 
+#### a.
 
+Download daily price data for January 1, 1990 through December 1, 2023 of Apple stock (AAPL) from Yahoo Finance. You may use the quantmod package in R for this purpose.
 
+```{r}
+library(quantmod)
 
+# Set the start and end dates.
+start_date <- as.Date("1990-01-01")
+end_date <- as.Date("2023-12-01")
+
+# Get the stock data for AAPL from Yahoo Finance.
+getSymbols("AAPL", src = "yahoo", from = start_date, to = end_date)
+
+head(AAPL)
+```
+
+#### b.
+
+Is there any evidence of serial correlations in the weekly log returns? Use the first 12 lagged autocorrelations and 5% significance level to answer this question. If yes, remove the serial correlations. If serial correlations exist, fit a linear model to account these serial correlations; justify your model to remove these serial correlations.
