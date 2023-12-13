@@ -5,3 +5,14 @@ author: "Sid Bhatia"
 date: "2023-12-13"
 output: pdf_document
 ---
+
+## Problem 1 (50pt)
+
+Suppose that the daily log return of a pair of securities follows the following model:
+
+$$
+\left\{\begin{array}{l}
+r_{1, t}=-0.05+0.1 r_{1, t-1}+0.05 r_{2, t-1}+a_{1, t} \\
+r_{2, t}=0.1-0.1 r_{1, t-1}+0.3 r_{2, t-1}+a_{2, t}
+\end{array}\right.
+$$
