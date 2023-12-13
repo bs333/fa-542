@@ -347,6 +347,28 @@ summary(ar1_model_r2)
 
 Compute the mean of both univariate models. How do these compare to those for the bivariate series?
 
+```{r}
+# Compute the means of the univariate AR(1) models.
+mean_ar1_r1 <- ar1_model_r1$coef[1] / (1 - ar1_model_r1$coef[2])
+mean_ar1_r2 <- ar1_model_r2$coef[1] / (1 - ar1_model_r2$coef[2])
+
+mean_ar1_r1
+mean_ar1_r2
+
+# Compute and display the means of the bivariate series.
+mean_bivariate_r1 <- mean(df$r1)
+mean_bivariate_r2 <- mean(df$r2)
+
+mean_bivariate_r1
+mean_bivariate_r2
+```
+
+For the first return series ($r_1$), the mean of the univariate AR(1) model is approximately $0.061$, whereas the mean of the bivariate series is about $-0.053$. This indicates a significant deviation, as the univariate model predicts a positive mean, while the actual mean in the bivariate series is negative.
+
+Similarly, for the second return series ($r_2$), the univariate AR(1) model yields a mean of approximately $0.340$, which is quite different from the mean of the bivariate series, which is around $0.141$. Here again, the univariate model predicts a higher mean compared to the actual mean in the bivariate data.
+
+These differences suggest that while the univariate AR(1) models capture some aspects of the data, they might not fully represent the underlying dynamics, especially the central tendencies, of the bivariate series. 
+
 ##### iv.
 
 Assume $r_{1,0} = -0.02, r_{2,0} = 0.08, a_{1,0} = -0.08,$ and $a_{2,0} = 0.1$. Compute the 1-, 2-, and 3-step ahead forecasts of both of your univariate return series models at the forecast origin $t = 1$. What are the standard deviations of the associated forecast errors? How do these compare to those for the bivariate series? You may approach this problem either analytically or via simulations.
