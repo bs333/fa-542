@@ -252,3 +252,39 @@ lag5_corr
 
 Consider how you might use repeated simulations to forecast this time series. Use your method with 10,000 repeated simulations of the time series to forecast the 1-, 2-, and 3-step ahead returns with $r_0 = (−0.02, 0.08)^{\top}$ and $a_0 = (−0.08, 0.1)^{\top}$. What is the sample covariance of the errors? How do these values compare with those computed analytically?
 
+```{r}
+num_simulations <- 10000
+forecast_horizon <- 3
+
+# Initialize matrices to store forecasts and errors.
+forecasts <- array(dim = c(num_simulations, forecast_horizon, 2))
+errors <- array(dim = c(num_simulations, forecast_horizon, 2))
+
+# Simulate and forecast
+for (i in 1:num_simulations) {
+  r <- r0
+  a <- a0
+  for (j in 1:forecast_horizon) {
+    # Generate next value.
+    r_next <- constant + phi %*% r + a
+    # Store forecast.
+    forecasts[i, j, ] <- r_next
+    # Update r and a for next step.
+    r <- r_next
+    a <- mvrnorm(1, mu = c(0, 0), Sigma = Sigma)
+  }
+  # Calculate errors for each forecast step.
+  for (j in 1:forecast_horizon) {
+    errors[i, j, ] <- forecasts[i, j, ] - r
+  }
+}
+
+# Compute the sample covariance of the forecast errors.
+error_cov_1 <- cov(errors[, 1, ])
+error_cov_2 <- cov(errors[, 2, ])
+error_cov_3 <- cov(errors[, 3, ])
+
+error_cov_1
+error_cov_2
+error_cov_3
+```
