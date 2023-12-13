@@ -367,8 +367,54 @@ For the first return series ($r_1$), the mean of the univariate AR(1) model is a
 
 Similarly, for the second return series ($r_2$), the univariate AR(1) model yields a mean of approximately $0.340$, which is quite different from the mean of the bivariate series, which is around $0.141$. Here again, the univariate model predicts a higher mean compared to the actual mean in the bivariate data.
 
-These differences suggest that while the univariate AR(1) models capture some aspects of the data, they might not fully represent the underlying dynamics, especially the central tendencies, of the bivariate series. 
+These differences suggest that while the univariate AR(1) models capture some aspects of the data, they might not fully represent the underlying dynamics, especially the central tendencies, of the bivariate series.
 
 ##### iv.
 
 Assume $r_{1,0} = -0.02, r_{2,0} = 0.08, a_{1,0} = -0.08,$ and $a_{2,0} = 0.1$. Compute the 1-, 2-, and 3-step ahead forecasts of both of your univariate return series models at the forecast origin $t = 1$. What are the standard deviations of the associated forecast errors? How do these compare to those for the bivariate series? You may approach this problem either analytically or via simulations.
+
+```{r}
+# Define initial values.
+r1_0 <- -0.02
+r2_0 <- 0.08
+a1_0 <- -0.08
+a2_0 <- 0.1
+
+# Function to forecast using AR(1) model.
+forecast_ar1 <- function(model, initial_value, steps) {
+  phi <- model$coef[2]
+  c <- model$coef[1]
+  forecast_values <- numeric(steps)
+  forecast_values[1] <- c + phi * initial_value
+  for (i in 2:steps) {
+    forecast_values[i] <- c + phi * forecast_values[i - 1]
+  }
+  return(forecast_values)
+}
+
+# 1-, 2-, and 3-step ahead forecasts for r1 and r2.
+forecast_r1 <- forecast_ar1(ar1_model_r1, r1_0, 3)
+forecast_r2 <- forecast_ar1(ar1_model_r2, r2_0, 3)
+
+forecast_r1
+forecast_r2
+
+# Standard deviation of forecast errors for univariate models.
+sd_forecast_error_r1 <- sd(ar1_model_r1$residuals)
+sd_forecast_error_r2 <- sd(ar1_model_r2$residuals)
+
+# Calculate the standard deviations of the bivariate series.
+sd_bivariate_r1 <- sd(df$r1)
+sd_bivariate_r2 <- sd(df$r2)
+
+sd_forecast_error_r1
+sd_forecast_error_r2
+
+sd_bivariate_r1
+sd_bivariate_r2
+```
+
+The comparison of the standard deviations of the forecast errors from the univariate AR(1) models with the standard deviations of the bivariate series shows a notable level of similarity, indicating that the univariate models are reasonably effective in capturing the variability of the data. Specifically, for the first return series ($r_1$), the standard deviation of the forecast error in the univariate model is approximately $0.617$, which is almost identical to the standard deviation of the bivariate series at about $0.618$. This close match suggests that the univariate model for $r_1$ is quite effective in capturing the volatility inherent in the bivariate series.
+
+Similarly, for the second return series ($r_2$), the standard deviation of the forecast error from the univariate model is around $0.459$, compared to the bivariate series' standard deviation of approximately $0.480$. Although there is a slight difference here, it's relatively small, indicating that the univariate model for $r_2$ also does a good job of approximating the variability seen in the bivariate data.
+
