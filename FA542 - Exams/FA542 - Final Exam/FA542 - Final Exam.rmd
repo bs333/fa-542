@@ -329,6 +329,20 @@ legend("topright", legend = c("r1", "r2"), col = c("blue", "red"), lty = 1)
 
 Using the generated time series, fit a univariate AR(1) model to each return series.
 
+```{r}
+library(forecast) # For ARIMA modeling
+
+# Fitting AR(1) model to the first return series (r1).
+ar1_model_r1 <- arima(df$r1, order = c(1, 0, 0))
+
+# Fitting AR(1) model to the second return series (r2).
+ar1_model_r2 <- arima(df$r2, order = c(1, 0, 0))
+
+# Displaying the model summaries.
+summary(ar1_model_r1)
+summary(ar1_model_r2)
+```
+
 ##### iii.
 
 Compute the mean of both univariate models. How do these compare to those for the bivariate series?
