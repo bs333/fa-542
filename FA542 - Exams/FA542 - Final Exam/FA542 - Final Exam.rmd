@@ -69,5 +69,26 @@ if (is_stationary)
 {
   print("The series is not weakly stationary.")
 }
-
 ```
+
+#### b.
+
+##### i.
+
+What is the mean vector of the return series $r_t$?
+
+```{r}
+mu
+```
+
+##### ii.
+
+What is the covariance matrix of the return series $r_t$?
+
+```{r}
+```
+
+##### iii.
+
+What are the lag-1, lag-2, and lag-5 cross-correlation matrices of the return series $r_t$?
+
