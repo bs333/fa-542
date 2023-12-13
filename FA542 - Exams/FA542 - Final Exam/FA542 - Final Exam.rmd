@@ -472,6 +472,29 @@ checkresiduals(fit)
 
 Obtain the residuals of your model from part (b) and test for ARCH effects. Use the first 6 lagged autocorrelations and 5% significance level to answer this question. If ARCH effects exist, fit a GARCH(1,1) model for the residual part.
 
+```{r}
+library(forecast)
+library(tseries)
+library(rugarch)
+
+# Obtain residuals from ARIMA model.
+residuals <- fit$residuals
+
+# Calculate the squared residuals.
+squared_residuals <- residuals^2
+
+# Ljung-Box test on residuals and square residuals for 6 and 12 lags.
+Box.test(squared_residuals, lag = 6, type = "Ljung-Box")
+Box.test(squared_residuals, lag = 12, type = "Ljung-Box")
+
+# Fit GARCH(1,1) model since ARCH effects are present.
+spec <- ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(1, 1)),
+                     mean.model = list(armaOrder = c(0,0), include.mean = FALSE))
+garch_model <- ugarchfit(spec, residuals)
+
+garch_model
+```
+
 #### d.
 
 ##### i.
