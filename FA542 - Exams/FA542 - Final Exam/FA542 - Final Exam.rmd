@@ -288,3 +288,51 @@ error_cov_1
 error_cov_2
 error_cov_3
 ```
+
+#### e.
+
+Create a report in pdf format and do the following:
+
+##### i.
+
+Simulate 1000 terms of this time series and plot the result. You may use the series constructed in (d)(i).
+
+```{r}
+set.seed(100)
+
+# Model parameters.
+phi <- matrix(c(0.1, 0.05, -0.1, 0.3), nrow = 2, byrow = TRUE)
+constant <- c(-0.05, 0.1)
+Sigma <- matrix(c(0.4, -0.1, -0.1, 0.2), nrow = 2, byrow = TRUE)
+n <- 1000 # Number of terms to simulate
+
+# Simulating the time series.
+r <- matrix(nrow = n, ncol = 2)
+r[1, ] <- c(-0.02, 0.08) # Initial value
+
+# Simulating the time series
+for (i in 2:n) {
+  a_t <- mvrnorm(1, mu = c(0, 0), Sigma = Sigma)
+  r[i, ] <- constant + phi %*% r[i - 1, ] + a_t
+}
+
+# Plotting the result.
+df <- data.frame(Time = 1:n, r1 = r[, 1], r2 = r[, 2])
+
+# Plotting the simulated time series.
+plot(df$Time, df$r1, type = "l", col = "blue", xlab = "Time", ylab = "Returns", main = "Simulated Time Series")
+lines(df$Time, df$r2, type = "l", col = "red")
+legend("topright", legend = c("r1", "r2"), col = c("blue", "red"), lty = 1)
+```
+
+##### ii.
+
+Using the generated time series, fit a univariate AR(1) model to each return series.
+
+##### iii.
+
+Compute the mean of both univariate models. How do these compare to those for the bivariate series?
+
+##### iv.
+
+Assume $r_{1,0} = -0.02, r_{2,0} = 0.08, a_{1,0} = -0.08,$ and $a_{2,0} = 0.1$. Compute the 1-, 2-, and 3-step ahead forecasts of both of your univariate return series models at the forecast origin $t = 1$. What are the standard deviations of the associated forecast errors? How do these compare to those for the bivariate series? You may approach this problem either analytically or via simulations.
