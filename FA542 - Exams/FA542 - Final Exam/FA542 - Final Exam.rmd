@@ -86,9 +86,38 @@ mu
 What is the covariance matrix of the return series $r_t$?
 
 ```{r}
+library(MASS) # For solving Yule-Walker equations
+
+# Covariance matrix
+Sigma <- matrix(c(0.4, -0.1, -0.1, 0.2), nrow = 2, byrow = TRUE)
+phi <- matrix(c(0.1, -0.1, 0.05, 0.3), nrow = 2, byrow = TRUE)
+
+# Solving Yule-Walker equations
+cov_matrix <- solve(toeplitz(1:2), Sigma)
+
+cov_matrix
 ```
 
 ##### iii.
 
 What are the lag-1, lag-2, and lag-5 cross-correlation matrices of the return series $r_t$?
 
+```{r}
+# Create a function to compute the cross-correlation matrix for a given lag.
+compute_cross_corr <- function(lag, phi, cov_matrix) 
+{
+    if (lag == 0) {
+        return(cov_matrix)
+    } else {
+        return(phi %*% compute_cross_corr(lag - 1, phi, cov_matrix))
+    }
+}
+
+lag1_corr <- compute_cross_corr(1, phi, cov_matrix)
+lag2_corr <- compute_cross_corr(2, phi, cov_matrix)
+lag5_corr <- compute_cross_corr(5, phi, cov_matrix)
+
+lag1_corr
+lag2_corr
+lag5_corr
+```
