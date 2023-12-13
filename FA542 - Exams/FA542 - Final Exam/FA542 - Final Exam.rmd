@@ -121,3 +121,42 @@ lag1_corr
 lag2_corr
 lag5_corr
 ```
+
+#### c.
+
+Assume that $r_0 = (-0.02, 0.08)^{\top}$ and $a_0 = (-0.08, 0.1)^{\top}$. Compute the 1-, 2-, and 3-step ahead forecasts of the return series at the forecast origin $t = 1$. What are the covariance matrices of the associated forecast errors?
+
+```{r}
+# Initial values
+r0 <- matrix(c(-0.02, 0.08), nrow = 2)
+a0 <- matrix(c(-0.08, 0.1), nrow = 2)
+
+constant <- matrix(c(-0.05, 0.1), nrow = 2)
+
+# Function to compute the forecast.
+forecast <- function(h, r0, a0, phi, constant) {
+  if (h == 0) {
+    return(r0)
+  } else {
+    return(phi %*% forecast(h - 1, r0, a0, phi, constant) + constant)
+  }
+}
+
+# Compute forecasts.
+forecast_1 <- forecast(1, r0, a0, phi, constant)
+forecast_2 <- forecast(2, r0, a0, phi, constant)
+forecast_3 <- forecast(3, r0, a0, phi, constant)
+
+forecast_1
+forecast_2
+forecast_3
+
+# Compute forecast errors.
+forecast_error_cov_1 <- Sigma
+forecast_error_cov_2 <- phi %*% Sigma %*% t(phi) + Sigma
+forecast_error_cov_3 <- phi %*% forecast_error_cov_2 %*% t(phi) + Sigma
+
+forecast_error_cov_1
+forecast_error_cov_2
+forecast_error_cov_3
+```
