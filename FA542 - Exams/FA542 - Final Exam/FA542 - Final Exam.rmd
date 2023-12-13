@@ -217,11 +217,34 @@ The comparison of the sample means from the simulation with the analytical means
 
 For $r_1$, the sample mean ($-0.05821449$) is slightly lower than the analytical mean ($-0.04724409$), and for $r_2$, the sample mean ($0.11096290$) is also lower compared to the analytical mean ($0.14960630$).
 
-Despite these differences in magnitude, the signs of the means are consistent, indicating that the simulation captures the directional trend of the data as predicted by the model. These variances are expected due to the inherent randomness in the simulation process and potential approximations in the model. 
+Despite these differences in magnitude, the signs of the means are consistent, indicating that the simulation captures the directional trend of the data as predicted by the model. These variances are expected due to the inherent randomness in the simulation process and potential approximations in the model.
 
 ##### iii.
 
 Using the generated time series, find the sample lag-1, lag-2, and lag-5 crosscorrelation matrices.
+
+```{r}
+# Function to extract cross-correlation matrix at a specific lag.
+get_lag_corr <- function(data, lag) {
+    # Computing cross-correlation for each pair
+    corr_r1_r1 <- ccf(data[,1], data[,1], lag.max = lag, plot = FALSE)$acf[lag + 1]
+    corr_r1_r2 <- ccf(data[,1], data[,2], lag.max = lag, plot = FALSE)$acf[lag + 1]
+    corr_r2_r1 <- ccf(data[,2], data[,1], lag.max = lag, plot = FALSE)$acf[lag + 1]
+    corr_r2_r2 <- ccf(data[,2], data[,2], lag.max = lag, plot = FALSE)$acf[lag + 1]
+
+    # Constructing the cross-correlation matrix
+    matrix(c(corr_r1_r1, corr_r1_r2, corr_r2_r1, corr_r2_r2), nrow = 2)
+}
+
+# Calculating the cross-correlation matrices for lags 1, 2, and 5.
+lag1_corr <- get_lag_corr(r, 1)
+lag2_corr <- get_lag_corr(r, 2)
+lag5_corr <- get_lag_corr(r, 5)
+
+lag1_corr
+lag2_corr
+lag5_corr
+```
 
 ##### iv.
 
