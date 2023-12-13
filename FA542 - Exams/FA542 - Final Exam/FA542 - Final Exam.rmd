@@ -16,3 +16,20 @@ r_{1, t}=-0.05+0.1 r_{1, t-1}+0.05 r_{2, t-1}+a_{1, t} \\
 r_{2, t}=0.1-0.1 r_{1, t-1}+0.3 r_{2, t-1}+a_{2, t}
 \end{array}\right.
 $$
+
+where $a_t$ denotes a bivariate normal distribution with mean $0$ and covariance:
+
+$$
+\Sigma:=\left(\begin{array}{cc}
+0.4 & -0.1 \\
+-0.1 & 0.2
+\end{array}\right)
+$$
+
+Any matrix operations can be computed in R. If any formulas require infinite series, you may approximate using the first 5 terms.
+
+#### a. 
+
+ Verify that the return series ${r_t}$ is a weakly stationary process.
+
+ *Hint*: The “polyroot” function can be used to find all roots of a polynomial in R and the “eigen” function can be used to find all eigenvalues of a matrix in R.
