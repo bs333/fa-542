@@ -520,6 +520,41 @@ excess_kurtosis
 
 Does this match the empirical excess kurtosis of your residuals? If not, what excess kurtosis of $e_t$ would be needed for the theoretical kurtosis to match the observed kurtosis? Provide a distribution for $e_t$ so that the theoretical excess kurtosis coincides with the observed kurtosis.
 
+```{r}
+# Calculate the empirical excess kurtosis of the residuals.
+empirical_excess_kurtosis <- kurtosis(residuals) - 3
 
+empirical_excess_kurtosis
 
+as.numeric(excess_kurtosis)
+
+# Use a Student's t-distribution if empirical kurtosis is higher.
+if(empirical_excess_kurtosis > excess_kurtosis) 
+{
+  spec_t <- ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(1, 1)),
+                       mean.model = list(armaOrder = c(0,0), include.mean = FALSE),
+                       distribution.model = "std") # std for Student's t-distribution
+  garch_model_t <- ugarchfit(spec_t, residuals)
+  garch_model_t
+}
+```
+
+## Problem 3 (20pt)
+
+Create a report in pdf format and do the following:
+
+#### a.
+
+Download daily price data for January 1, 1980 through December 1, 2023 of Exxon Mobil stock (XOM) from Yahoo Finance. You may use the quantmod package in R for this purpose.
+
+```{r}
+# Set the start and end dates.
+start_date <- as.Date("1980-01-01")
+end_date <- as.Date("2023-12-01")
+
+# Get the stock data for XOM from Yahoo Finance.
+getSymbols("XOM", src = "yahoo", from = start_date, to = end_date)
+
+head(XOM)
+```
 
