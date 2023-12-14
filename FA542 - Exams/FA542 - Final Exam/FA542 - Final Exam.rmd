@@ -501,6 +501,21 @@ garch_model
 
 Assuming $e_t \sim N(0, 1)$ i.i.d., what is the excess kurtosis of your GARCH(1,1) model?
 
+```{r}
+library(moments)
+
+# Compute the standardized residuals from the GARCH model.
+std_resid <- scale(residuals(garch_model, standardize = TRUE))
+
+# Calculate the kurtosis of the standardized residuals.
+kurtosis_std_resid <- kurtosis(std_resid)
+
+# Excess kurtosis is the kurtosis minus 3 (kurtosis of normal distribution).
+excess_kurtosis <- kurtosis_std_resid - 3
+
+excess_kurtosis
+```
+
 ##### ii.
 
 Does this match the empirical excess kurtosis of your residuals? If not, what excess kurtosis of $e_t$ would be needed for the theoretical kurtosis to match the observed kurtosis? Provide a distribution for $e_t$ so that the theoretical excess kurtosis coincides with the observed kurtosis.
