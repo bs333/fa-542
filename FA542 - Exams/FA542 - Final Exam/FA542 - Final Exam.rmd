@@ -558,3 +558,46 @@ getSymbols("XOM", src = "yahoo", from = start_date, to = end_date)
 head(XOM)
 ```
 
+#### b.
+
+Using any method discussed this semester, develop a time series model to predict daily log returns. Use data up to December 1, 2018 as the training data set and the remainder as the testing data. Briefly comment on the performance of your selected model. Justify the modeling choices made with, e.g., the appropriate statistical tests. Full credit will only be provided if rigorous justification for modeling choices are made.
+
+```{r}
+library(forecast)
+
+# Calculate daily log returns.
+XOM_prices <- Cl(get("XOM"))
+XOM_log_returns <- diff(log(XOM_prices))
+
+# Split data into training and testing sets.
+train_end_date <- as.Date("2018-12-01")
+train_data <- window(XOM_log_returns, end = train_end_date)
+test_data <- window(XOM_log_returns, start = train_end_date + 1)
+
+# Fit an ARIMA model.
+fit_arima <- auto.arima(train_data, seasonal = FALSE)
+
+fit_arima
+
+# Check for autocorrelation in residuals.
+residuals_arima <- residuals(fit_arima)
+Box.test(residuals_arima, type = "Ljung-Box")
+
+acf(residuals_arima)
+pacf(residuals_arima)
+
+# Generate forecasts for the length of the test data.
+pred_values <- predict(fit_arima, n.ahead = length(test_data))$pred
+predictions <- ts(pred_values, start = start(test_data), frequency = frequency(test_data))
+
+# Calculate accuracy.
+accuracy_metrics <- accuracy(pred_values, test_data)
+
+accuracy_metrics
+````
+
+The model's performance was assessed using standard accuracy metrics on the test set. The Mean Error (ME) was very close to zero, indicating no significant bias in the model's predictions. The Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) were relatively low, suggesting that the model's predictions were generally close to the actual values. 
+
+A Box-Ljung test conducted on the residuals revealed no significant autocorrelation, with a p-value much higher than the conventional 0.05 threshold. This result suggested that the ARIMA model successfully captured the temporal dependencies in the data, leaving no evident autocorrelation pattern in the residuals.
+
+Overall, the ARIMA model performed reasonably well for the given data, with low average errors and no detectable bias. The model's adequacy in capturing the data's structure without leaving unexplained patterns in the residuals indicates a robust modeling approach.
