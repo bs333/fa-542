@@ -460,7 +460,7 @@ lb_test <- Box.test(AAPL_weekly_log_returns, lag = 12, type = "Ljung-Box")
 lb_test
 
 # Fit an ARIMA model since p-value is less than 0.05, including the mean.
-fit <- auto.arima(AAPL_weekly_log_returns, include.mean = TRUE)
+fit <- auto.arima(AAPL_weekly_log_returns)
 
 summary(fit)
 
@@ -594,7 +594,7 @@ predictions <- ts(pred_values, start = start(test_data), frequency = frequency(t
 accuracy_metrics <- accuracy(pred_values, test_data)
 
 accuracy_metrics
-````
+```
 
 The model's performance was assessed using standard accuracy metrics on the test set. The Mean Error (ME) was very close to zero, indicating no significant bias in the model's predictions. The Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) were relatively low, suggesting that the model's predictions were generally close to the actual values. 
 
